@@ -54,7 +54,7 @@ CREATE TABLE Carrello (
     FOREIGN KEY (cliente_email) REFERENCES Cliente(utente_registrato_email)
 );
 
--- Table: Prodotto
+-- Table: ProdottoBean
 CREATE TABLE Prodotto (
     id VARCHAR(5) PRIMARY KEY,
     name VARCHAR(100),

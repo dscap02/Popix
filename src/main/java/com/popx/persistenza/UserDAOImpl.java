@@ -1,4 +1,6 @@
-package com.popx.modello;
+package com.popx.persistenza;
+
+import com.popx.modello.UserBean;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;

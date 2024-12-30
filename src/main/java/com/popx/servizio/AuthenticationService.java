@@ -1,8 +1,8 @@
 package com.popx.servizio;
 
 import com.popx.modello.UserBean;
-import com.popx.modello.UserDAO;
-import com.popx.modello.UserDAOImpl;
+import com.popx.persistenza.UserDAO;
+import com.popx.persistenza.UserDAOImpl;
 
 public class AuthenticationService {
     private UserDAO userDAO = new UserDAOImpl();
