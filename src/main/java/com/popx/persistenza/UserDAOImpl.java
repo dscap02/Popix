@@ -6,14 +6,11 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserDAOImpl implements UserDAO {
+public class UserDAOImpl implements UserDAO<UserBean> {
     private static final DataSource ds;
 
     static {
@@ -58,10 +55,10 @@ public class UserDAOImpl implements UserDAO {
         }
     }
 
-    @Override
+    // Metodo disponibile solo in UserDAOImpl
     public List<UserBean> getAllUsers() throws SQLException {
-        String query = "SELECT * FROM UtenteRegistrato";
         List<UserBean> users = new ArrayList<>();
+        String query = "SELECT * FROM UtenteRegistrato";
         try (Connection conn = ds.getConnection();
              PreparedStatement stmt = conn.prepareStatement(query);
              ResultSet rs = stmt.executeQuery()) {
@@ -77,4 +74,3 @@ public class UserDAOImpl implements UserDAO {
         return users;
     }
 }
-

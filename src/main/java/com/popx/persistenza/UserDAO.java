@@ -5,8 +5,7 @@ import com.popx.modello.UserBean;
 import java.sql.SQLException;
 import java.util.List;
 
-public interface UserDAO {
-    UserBean getUserByEmail(String email) throws SQLException;
-    boolean saveUser(UserBean user) throws SQLException;
-    List<UserBean> getAllUsers() throws SQLException;
+public interface UserDAO<T extends UserBean> {
+    T getUserByEmail(String email) throws SQLException;
+    boolean saveUser(T user) throws SQLException;
 }
