@@ -8,7 +8,6 @@ CREATE TABLE UtenteRegistrato (
     username VARCHAR(50) UNIQUE NOT NULL,
     password VARCHAR(255) NOT NULL,
     email VARCHAR(100) PRIMARY KEY,
-    status VARCHAR(20),
     role ENUM('User', 'Admin', 'Gestore') NOT NULL
 );
 
