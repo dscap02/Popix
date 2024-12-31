@@ -2,15 +2,13 @@
 
 <Context>
     <!-- Configurazione per il datasource JDBC -->
-    <Resource name="jdbc/popix"
+    <Resource name="jdbc/Popix"
               auth="Container"
               driverClassName="com.mysql.cj.jdbc.Driver"
               type="javax.sql.DataSource"
               username="root"
               password="dany02"
-              url="jdbc:mysql://localhost:3306/popix?useUnicode=true&amp;useJDBCCompliantTimezoneShift=true&amp;useLegacyDatetimeCode=false&amp;serverTimezone=UTC"/>
-
-    <!-- Configurazione per le risorse (immagini, file, ecc.) -->
+              url="jdbc:mysql://localhost:3306/Popix?useUnicode=true&amp;useJDBCCompliantTimezoneShift=true&amp;useLegacyDatetimeCode=false&amp;serverTimezone=UTC"/>
 
 
 

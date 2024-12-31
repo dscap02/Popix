@@ -1,0 +1,84 @@
+body {
+    padding: 0;
+    margin: 0;
+    background: #eee6ff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80vh;
+    font-family: 'Raleway', sans-serif;
+  }
+  
+  #forbidden {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .forbidden {
+    text-align: left;
+    max-width: 600px; /* Optionally set a max-width for better text alignment */
+    margin: 0 20px;
+  }
+  
+  
+  .forbidden-403 {
+    position: relative;
+    height: 200px;
+    background: url('../images/403.png') no-repeat center;
+    background-size: cover;
+  }
+  
+  .forbidden h3 {
+    font-size: 2rem;
+    margin: 0.2rem 0;
+    color: #000000;
+    font-weight: bold;
+  }
+  
+  .forbidden p {
+    font-size: 1.20rem;
+    opacity: 0.5;
+    font-weight: bold;
+  }
+  
+  .forbidden a {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    background-color: #9966ff;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+  }
+  
+  
+  .forbidden img {
+    margin-top: 20px; /* Adjust this value to move the image vertically */
+    width: 150px; /* Adjust the width as needed */
+    height: auto;
+    max-width: 100%;
+  }
+  
+  @media (max-width: 768px) {
+    .forbidden h2 {
+        font-size: 2rem;
+    }
+  
+    .forbidden p {
+        font-size: 1rem;
+    }
+  
+    .forbidden a {
+        padding: 8px 20px;
+        font-size: 0.875rem;
+    }
+  
+    .forbidden img {
+        width: 100px; /* Adjust the width for smaller screens */
+    }
+  }

@@ -49,7 +49,7 @@ public class UserDAOImpl implements UserDAO<UserBean> {
              PreparedStatement stmt = conn.prepareStatement(query)) {
             stmt.setString(1, user.getUsername());
             stmt.setString(2, user.getEmail());
-            stmt.setString(3, user.getPassword());
+            stmt.setString(3, com.popx.servizio.SecurityService.hashPassword( user.getPassword()));
             stmt.setString(4, user.getRole());
             return stmt.executeUpdate() > 0;
         }

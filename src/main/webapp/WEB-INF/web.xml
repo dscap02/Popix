@@ -6,7 +6,7 @@
 
 
     <resource-ref>
-        <description>JNDI reference to a data source</description>
+        <description>DB Connection for Popix</description>
         <res-ref-name>jdbc/Popix</res-ref-name>
         <res-type>javax.sql.DataSource</res-type>
         <res-auth>Container</res-auth>
@@ -16,4 +16,24 @@
     <welcome-file-list>
         <welcome-file>jsp/HomePage.jsp</welcome-file>
     </welcome-file-list>
+    <welcome-file-list>
+        <welcome-file>jsp/HomePage.jsp</welcome-file>
+    </welcome-file-list>
+    <error-page>
+        <error-code>401</error-code>
+        <location>/jsp/error-pages/401.jsp</location>
+    </error-page>
+    <error-page>
+        <error-code>403</error-code>
+        <location>/jsp/error-pages/403.jsp</location>
+    </error-page>
+    <error-page>
+        <error-code>404</error-code>
+        <location>/jsp/error-pages/404.jsp</location>
+    </error-page>
+    <error-page>
+        <error-code>500</error-code>
+        <location>/jsp/error-pages/500.jsp</location>
+    </error-page>
+
 </web-app>
