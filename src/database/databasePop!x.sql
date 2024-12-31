@@ -54,15 +54,16 @@ CREATE TABLE Carrello (
     FOREIGN KEY (cliente_email) REFERENCES Cliente(utente_registrato_email)
 );
 
--- Table: ProdottoBean
+
 CREATE TABLE Prodotto (
     id VARCHAR(5) PRIMARY KEY,
     name VARCHAR(100),
     description TEXT,
     cost FLOAT NOT NULL,
     pieces_in_stock INT,
-    brand VARCHAR(50),
-    img MEDIUMBLOB
+    img MEDIUMBLOB,
+    brand varchar(100),
+    figure varchar(100)
 );
 
 -- Table: ProdottoCarrello
