@@ -22,4 +22,8 @@ public class AuthenticationService {
         }
         throw new Exception("User already exists");
     }
+
+    public boolean isEmailRegistered(String email) throws Exception {
+        return userDAO.getUserByEmail(email) != null;
+    }
 }

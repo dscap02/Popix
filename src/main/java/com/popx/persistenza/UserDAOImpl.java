@@ -49,12 +49,15 @@ public class UserDAOImpl implements UserDAO<UserBean> {
              PreparedStatement stmt = conn.prepareStatement(query)) {
             stmt.setString(1, user.getUsername());
             stmt.setString(2, user.getEmail());
-            stmt.setString(3, com.popx.servizio.SecurityService.hashPassword( user.getPassword()));
-            stmt.setString(4, user.getRole());
+            stmt.setString(3, com.popx.servizio.SecurityService.hashPassword(user.getPassword()));
+
+            // Imposta il ruolo di default su 'User'
+            String defaultRole = "User";
+            stmt.setString(4, defaultRole);
+
             return stmt.executeUpdate() > 0;
         }
     }
-
     // Metodo disponibile solo in UserDAOImpl
     public List<UserBean> getAllUsers() throws SQLException {
         List<UserBean> users = new ArrayList<>();

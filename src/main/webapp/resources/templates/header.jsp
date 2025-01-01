@@ -22,7 +22,7 @@
     </nav>
     <div class="icons">
         <a href="#" class="fas fa-shopping-cart"></a>
-        <a href="#" class="fas fa-sign-in-alt"></a>
+        <a href="${pageContext.request.contextPath}/jsp/Registation.jsp" class="fas fa-sign-in-alt"></a>
 
     </div>
 </header>
