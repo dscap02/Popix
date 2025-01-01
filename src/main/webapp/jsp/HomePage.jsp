@@ -1,7 +1,7 @@
-<%@ page import="com.popx.modello.UserBean" %>
-<%@ page import="com.popx.persistenza.UserDAO" %>
-<%@ page import="com.popx.persistenza.UserDAOImpl" %>
-<%@ page import="java.sql.SQLException" %>
+<%@ page import="com.popx.modello.ProdottoBean" %>
+<%@ page import="com.popx.persistenza.ProdottoDAO" %>
+<%@ page import="com.popx.persistenza.ProdottoDAOImpl" %>
+<%@ page import="java.util.List" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -50,59 +50,32 @@
 </section>
 
 <section class="products" id="products">
-    <h1 class="heading">Ultimi<span> arrivi</span></h1>
+    <h1 class="heading">La nostra<span> selezione</span></h1>
     <div class="box-container">
-        <!-- Product 1 -->
-        <div class="box product1">
-            <span class="discount">-10%</span>
+        <%
+            // Recupera i 3 prodotti casuali dal database
+            ProdottoDAO prodottoDAO = new ProdottoDAOImpl();
+            List<ProdottoBean> prodotti = prodottoDAO.getRandomProducts(3);
+            for (int i = 0; i < prodotti.size(); i++) {
+                ProdottoBean prodotto = prodotti.get(i);
+        %>
+        <!-- Product <%= i+1 %> -->
+        <div class="box product<%= i+1 %>">
             <div class="image">
-                <img src="#" alt="Product Image">
+                <img src="<%= request.getContextPath() + "/getPictureServlet?id=" + prodotto.getId() %>" alt="Product Image">
                 <div class="icons">
                     <a href="#" class="cart-btn">Aggiungi al carrello</a>
                     <a href="#" class="fas fa-share"></a>
                 </div>
             </div>
             <div class="content">
-                <h3></h3>
-                <h4></h4>
-                <div class="price"> <span>€14.5</span></div>
+                <h3><%= prodotto.getName() %></h3>
+                <div class="price">€<%= prodotto.getCost() %></div>
             </div>
         </div>
-
-        <!-- Product 2 -->
-        <div class="box product2">
-            <div class="image">
-                <img src="#" alt="Product Image">
-                <div class="icons">
-                    <a href="#" class="cart-btn">Aggiungi al carrello</a>
-                    <a href="#" class="fas fa-share"></a>
-                </div>
-            </div>
-            <div class="content">
-                <h3></h3>
-                <h4></h4>
-                <div class="price"></div>
-            </div>
-        </div>
-
-
-
-        <!-- Product 3 -->
-        <div class="box product3">
-            <div class="image">
-                <img src="#" alt="Product Image">
-                <div class="icons">
-
-                    <a href="#" class="cart-btn">Aggiungi al carrello</a>
-                    <a href="#" class="fas fa-share"></a>
-                </div>
-            </div>
-            <div class="content">
-                <h3></h3>
-                <h4></h4>
-                <div class="price"></div>
-            </div>
-        </div>
+        <%
+            }
+        %>
     </div>
 </section>
 

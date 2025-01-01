@@ -2,6 +2,7 @@ package com.popx.persistenza;
 
 import com.popx.modello.ProdottoBean;
 
+import java.sql.SQLException;
 import java.util.List;
 
 public interface ProdottoDAO {
@@ -24,5 +25,7 @@ public interface ProdottoDAO {
         List<ProdottoBean> getProdottiSortedByPrice(boolean ascending);
 
         byte[] getProductImageById(String id);
+
+        List<ProdottoBean> getRandomProducts(int limit) throws SQLException;
 }
 

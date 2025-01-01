@@ -26,7 +26,7 @@ public class ProdottoDAOImpl implements ProdottoDAO {
 
     @Override
     public boolean saveProdotto(ProdottoBean prodotto) {
-        String query = "INSERT INTO Prodotto (id, name, description, cost, pieces_in_stock, brand, img) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO Prodotto (id, name, description, cost, pieces_in_stock, brand, img, figure) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection connection = ds.getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setString(1, prodotto.getId());
@@ -36,6 +36,7 @@ public class ProdottoDAOImpl implements ProdottoDAO {
             statement.setInt(5, prodotto.getPiecesInStock());
             statement.setString(6, prodotto.getBrand());
             statement.setBytes(7, prodotto.getImg());
+            statement.setString(8, prodotto.getFigure());  // Set the figure field
             return statement.executeUpdate() > 0;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -58,7 +59,8 @@ public class ProdottoDAOImpl implements ProdottoDAO {
                         resultSet.getDouble("cost"),
                         resultSet.getInt("pieces_in_stock"),
                         resultSet.getString("brand"),
-                        resultSet.getBytes("img")
+                        resultSet.getBytes("img"),
+                        resultSet.getString("figure")  // Retrieve the figure field
                 );
             }
         } catch (SQLException e) {
@@ -83,7 +85,8 @@ public class ProdottoDAOImpl implements ProdottoDAO {
                         resultSet.getDouble("cost"),
                         resultSet.getInt("pieces_in_stock"),
                         resultSet.getString("brand"),
-                        resultSet.getBytes("img")
+                        resultSet.getBytes("img"),
+                        resultSet.getString("figure")  // Retrieve the figure field
                 ));
             }
         } catch (SQLException e) {
@@ -108,7 +111,8 @@ public class ProdottoDAOImpl implements ProdottoDAO {
                         resultSet.getDouble("cost"),
                         resultSet.getInt("pieces_in_stock"),
                         resultSet.getString("brand"),
-                        resultSet.getBytes("img")
+                        resultSet.getBytes("img"),
+                        resultSet.getString("figure")  // Retrieve the figure field
                 ));
             }
         } catch (SQLException e) {
@@ -132,7 +136,8 @@ public class ProdottoDAOImpl implements ProdottoDAO {
                         resultSet.getDouble("cost"),
                         resultSet.getInt("pieces_in_stock"),
                         resultSet.getString("brand"),
-                        resultSet.getBytes("img")
+                        resultSet.getBytes("img"),
+                        resultSet.getString("figure")  // Retrieve the figure field
                 ));
             }
         } catch (SQLException e) {
@@ -168,7 +173,7 @@ public class ProdottoDAOImpl implements ProdottoDAO {
                 prodotto.setId(rs.getString("id"));
                 prodotto.setName(rs.getString("name"));
                 prodotto.setCost(rs.getDouble("cost"));
-                // aggiungi altre colonne se necessario
+                prodotto.setFigure(rs.getString("figure"));  // Set the figure field
                 products.add(prodotto);
             }
         } catch (SQLException e) {
@@ -177,9 +182,32 @@ public class ProdottoDAOImpl implements ProdottoDAO {
         return products;
     }
 
+    @Override
+    public List<ProdottoBean> getRandomProducts(int limit) throws SQLException {
+        List<ProdottoBean> products = new ArrayList<>();
+        String query = "SELECT * FROM prodotto ORDER BY RAND() LIMIT ?";  // Usato ORDER BY RAND() per ottenere risultati casuali
+
+        try (Connection con = ds.getConnection(); // Assicurati che ds sia un DataSource valido
+             PreparedStatement ps = con.prepareStatement(query)) {
+
+            ps.setInt(1, limit);  // Imposta il parametro limit dinamicamente
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    ProdottoBean product = new ProdottoBean();
+                    product.setId(rs.getString("id"));  // Verifica che 'id' sia di tipo String, altrimenti cambia a Integer
+                    product.setName(rs.getString("name"));
+                    product.setBrand(rs.getString("brand"));
+                    product.setCost(rs.getDouble("cost"));
+                    product.setImg(rs.getBytes("img"));
+                    product.setDescription(rs.getString("description"));
+                    product.setFigure(rs.getString("figure"));  // Set the figure field
+                    products.add(product);
+                }
+            }
+        }
+        return products;
+    }
+
+
 }
-
-
-
-
-

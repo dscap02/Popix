@@ -13,11 +13,14 @@ public class ProdottoBean implements Serializable {
     private int piecesInStock;
     private String brand;
     private byte[] img;
+    private String figure;
 
     // Constructors
-    public ProdottoBean() {}
 
-    public ProdottoBean(String id, String name, String description, double cost, int piecesInStock, String brand, byte[] img) {
+    public ProdottoBean() {
+    }
+
+    public ProdottoBean(String id, String name, String description, double cost, int piecesInStock, String brand, byte[] img, String figure) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -25,9 +28,9 @@ public class ProdottoBean implements Serializable {
         this.piecesInStock = piecesInStock;
         this.brand = brand;
         this.img = img;
+        this.figure = figure;
     }
 
-    // Getters and Setters
     public String getId() {
         return id;
     }
@@ -84,6 +87,14 @@ public class ProdottoBean implements Serializable {
         this.img = img;
     }
 
+    public String getFigure() {
+        return figure;
+    }
+
+    public void setFigure(String figure) {
+        this.figure = figure;
+    }
+
     @Override
     public String toString() {
         return "ProdottoBean{" +
@@ -94,6 +105,7 @@ public class ProdottoBean implements Serializable {
                 ", piecesInStock=" + piecesInStock +
                 ", brand='" + brand + '\'' +
                 ", img=" + Arrays.toString(img) +
+                ", figure='" + figure + '\'' +
                 '}';
     }
 }
