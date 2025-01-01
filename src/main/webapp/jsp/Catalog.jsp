@@ -66,7 +66,10 @@
         %>
         <div class="col-md-4">
             <div class="card mb-4 shadow-sm">
-                <img src="${pageContext.request.contextPath}/getPictureServlet?id=<%= prodotto.getId() %>" class="card-img-top" alt="<%= prodotto.getName() %>">
+                <!-- Modifica: link aggiunto sull'immagine -->
+                <a href="${pageContext.request.contextPath}/getProduct?id=<%= prodotto.getId() %>">
+                    <img src="${pageContext.request.contextPath}/getPictureServlet?id=<%= prodotto.getId() %>" class="card-img-top" alt="<%= prodotto.getName() %>">
+                </a>
                 <div class="card-body">
                     <h5 class="card-title"><%= prodotto.getName() %></h5>
                     <p class="card-text">Prezzo: €<%= prodotto.getCost() %></p>

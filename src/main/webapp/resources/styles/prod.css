@@ -1,0 +1,337 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+    outline: none;
+    border: none;
+    text-decoration: none;
+    transition: .2s linear;
+}
+
+html {
+    font-size: 62.5%;
+    scroll-behavior: smooth;
+    scroll-padding-top: 6rem;
+    overflow-x: hidden;
+}
+
+body {
+    background-color: #f4f4f4;
+    padding-top: 8rem; /* Adjust padding to account for fixed header */
+}
+
+.heading {
+    text-align: center;
+    font-size: 4rem;
+    color: #333;
+    padding: 1rem;
+    margin: 2rem 0;
+    background: #e7dcff;
+}
+
+.header-photo {
+    width: 6rem; /* Adjust width as needed */
+    height: auto; /* Maintain aspect ratio */
+    margin-left: -2rem; /* Adjust margin for spacing */
+}
+
+.heading span {
+    color: #9966ff;
+    font-weight: bold;
+}
+
+.btn {
+    display: inline-block;
+    margin-top: 1rem;
+    border-radius: 5rem;
+    background: #333;
+    color: #fff;
+    padding: .9rem 3.5rem;
+    cursor: pointer;
+    font-size: 1.7rem;
+}
+
+.btn:hover {
+    background: #9966ff;
+}
+
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to right, #9966ff, #bf66ff);
+    padding: 2rem 9%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 1000;
+    box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .1);
+}
+
+header .logo {
+    font-size: 3rem;
+    color: #ffffff;
+    font-weight: bolder;
+    text-decoration: none;
+    margin-left: -1rem;
+}
+
+header .navbar {
+    display: flex;
+    align-items: center;
+    height: 100%; /* Make sure navbar takes the full height of the header */
+}
+
+header .navbar a {
+    font-size: 2rem;
+    padding: 0 1.5rem;
+    color: #e7dcff;
+    display: flex;
+    align-items: center; /* Center the text within each anchor tag */
+    height: 100%; /* Ensure anchor tags take the full height of the navbar */
+}
+
+header .navbar a:hover {
+    color: #ffeb99;
+}
+
+
+header .icons a {
+    font-size: 2.5rem;
+    color: #ffffff;
+    margin-left: 1.5rem;
+    text-decoration: none;
+}
+
+header .icons a:hover {
+    color: #ffeb99;
+}
+
+header #toggler {
+    display: none;
+}
+
+header .fa-bars {
+    font-size: 3rem;
+    color: #fff;
+    border-radius: .5rem;
+    padding: .5rem 1.5rem;
+    cursor: pointer;
+    display: none;
+}
+
+header .logo span {
+    color: #ffeb99;
+}
+
+.product-container {
+    display: flex;
+    flex-wrap: wrap;
+    background-color: #fff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+    max-width: 900px;
+    width: 100%;
+    margin: 20px auto; /* Center the container */
+    padding: 20px;
+}
+
+.product-image {
+    flex: 1;
+    text-align: center;
+    background-color: #eee;
+}
+
+.product-image img {
+    max-width: 100%;
+    height: auto;
+}
+
+.product-details {
+    flex: 1;
+    padding: 20px;
+}
+
+.product-name {
+    font-size: 2.4rem;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.product-brand {
+    font-size: 2rem;
+    margin-bottom: 10px;
+    color: #666;
+}
+
+.product-price {
+    font-size: 3rem;
+    margin-bottom: 20px;
+    color: #9966ff;
+    font-weight: bold;
+}
+
+.quantity-selector {
+    margin-bottom: 20px;
+}
+
+.quantity-selector .form-label {
+    font-size: 1.6rem;
+    margin-bottom: 5px;
+}
+
+.quantity-selector .form-control {
+    width: 100px;
+    padding: 10px;
+    font-size: 1.6rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.add-to-cart {
+    background-color: #9966ff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1.6rem;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.add-to-cart:hover {
+    background-color: #333;
+}
+
+
+.footer {
+    color: #333;
+    padding: 2rem 0;
+    width: 100%;
+    margin-top: auto; /* Permette al footer di spingersi verso il basso */
+    background: #f4f4f4; /* Colore di sfondo del footer */
+    text-align: center;
+}
+
+.footer .box-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.footer .box-container .box {
+    flex: 1 1 25rem;
+    max-width: 100%;
+    padding: 0 1rem;
+    text-align: center;
+}
+
+.footer .box-container .box h3 {
+    font-size: 2.5rem;
+    padding: 1rem 0;
+    font-weight: bold;
+    color: #333;
+}
+
+.footer .box-container .box a {
+    display: block;
+    color: #666;
+    font-size: 1.5rem;
+    padding: 1rem 0;
+    transition: color 0.3s;
+}
+
+.footer .box-container .box a:hover {
+    color: #9966ff;
+    text-decoration: underline;
+}
+
+
+/* Responsive Styles */
+@media (max-width: 991px) {
+    html {
+        font-size: 55%;
+    }
+
+    header {
+        padding: 2rem;
+    }
+
+    section {
+        padding: 2rem;
+    }
+
+    .container {
+        padding: 15px;
+    }
+}
+
+@media (max-width: 768px) {
+
+    header .fa-bars {
+        display: block;
+    }
+
+    header .navbar {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: #eee;
+        border-top: .1rem solid rgba(0, 0, 0, .1);
+        clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
+    }
+
+    header #toggler:checked ~ .navbar {
+        clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+    }
+
+    header .navbar {
+        justify-content: center; /* Center navbar items */
+    }
+
+    header .navbar a {
+        margin: 1rem; /* Adjust spacing */
+        padding: 1rem; /* Adjust padding */
+        background: #9966ff;
+        border: .1rem solid rgba(0, 0, 0, .1);
+        display: block;
+    }
+
+    .container {
+        margin-top: 4rem; /* Adjust margin for smaller screens */
+    }
+}
+
+@media (max-width: 576px) {
+
+    html {
+        font-size: 55%;
+    }
+
+    header {
+        padding: 2rem;
+    }
+
+    .heading {
+        font-size: 3rem;
+    }
+
+    .container {
+        margin-top: 3rem; /* Further adjust margin for very small screens */
+    }
+
+    h1 {
+        font-size: 2.5rem; /* Decrease heading font size */
+    }
+
+    .table th,
+    .table td {
+        padding: .5rem; /* Decrease table cell padding */
+    }
+}
