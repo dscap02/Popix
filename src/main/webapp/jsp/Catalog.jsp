@@ -24,12 +24,12 @@
             <div class="col-md-4">
                 <label for="category" class="form-label">Brand</label>
                 <select name="category" id="category" class="form-select">
-                    <option value="">Tutti</option>
-                    <option value="Naruto">Naruto</option>
-                    <option value="Dragon Ball">Dragon Ball</option>
-                    <option value="Disney">Disney</option>
-                    <option value="One Piece">One Piece</option>
-                    <option value="My Hero Academia">My Hero Academia</option>
+                    <option value="" <%= request.getParameter("category") == null || request.getParameter("category").isEmpty() ? "selected" : "" %>>Tutti</option>
+                    <option value="Naruto" <%= "Naruto".equals(request.getParameter("category")) ? "selected" : "" %>>Naruto</option>
+                    <option value="Dragon Ball" <%= "Dragon Ball".equals(request.getParameter("category")) ? "selected" : "" %>>Dragon Ball</option>
+                    <option value="Disney" <%= "Disney".equals(request.getParameter("category")) ? "selected" : "" %>>Disney</option>
+                    <option value="One Piece" <%= "One Piece".equals(request.getParameter("category")) ? "selected" : "" %>>One Piece</option>
+                    <option value="My Hero Academia" <%= "My Hero Academia".equals(request.getParameter("category")) ? "selected" : "" %>>My Hero Academia</option>
                 </select>
             </div>
 
@@ -37,9 +37,9 @@
             <div class="col-md-4">
                 <label for="price" class="form-label">Prezzo</label>
                 <select name="price" id="price" class="form-select">
-                    <option value="">Tutti</option>
-                    <option value="low">Basso → Alto</option>
-                    <option value="high">Alto → Basso</option>
+                    <option value="" <%= request.getParameter("price") == null || request.getParameter("price").isEmpty() ? "selected" : "" %>>Tutti</option>
+                    <option value="low" <%= "low".equals(request.getParameter("price")) ? "selected" : "" %>>Basso → Alto</option>
+                    <option value="high" <%= "high".equals(request.getParameter("price")) ? "selected" : "" %>>Alto → Basso</option>
                 </select>
             </div>
 
@@ -66,7 +66,6 @@
         %>
         <div class="col-md-4">
             <div class="card mb-4 shadow-sm">
-                <!-- Modifica: link aggiunto sull'immagine -->
                 <a href="${pageContext.request.contextPath}/getProduct?id=<%= prodotto.getId() %>">
                     <img src="${pageContext.request.contextPath}/getPictureServlet?id=<%= prodotto.getId() %>" class="card-img-top" alt="<%= prodotto.getName() %>">
                 </a>
@@ -94,20 +93,24 @@
 <div class="container">
     <nav aria-label="Page navigation">
         <ul class="pagination justify-content-center">
+            <%
+                String category = request.getParameter("category") != null ? request.getParameter("category") : "";
+                String price = request.getParameter("price") != null ? request.getParameter("price") : "";
+            %>
             <li class="page-item <%= currentPage == 1 ? "disabled" : "" %>">
-                <a class="page-link" href="?page=<%= currentPage - 1 %>" tabindex="-1">Precedente</a>
+                <a class="page-link" href="?page=<%= currentPage - 1 %>&category=<%= category %>&price=<%= price %>" tabindex="-1">Precedente</a>
             </li>
             <%
                 for (int i = 1; i <= totalPages; i++) {
             %>
             <li class="page-item <%= currentPage == i ? "active" : "" %>">
-                <a class="page-link" href="?page=<%= i %>"><%= i %></a>
+                <a class="page-link" href="?page=<%= i %>&category=<%= category %>&price=<%= price %>"><%= i %></a>
             </li>
             <%
                 }
             %>
             <li class="page-item <%= currentPage == totalPages ? "disabled" : "" %>">
-                <a class="page-link" href="?page=<%= currentPage + 1 %>">Successivo</a>
+                <a class="page-link" href="?page=<%= currentPage + 1 %>&category=<%= category %>&price=<%= price %>">Successivo</a>
             </li>
         </ul>
     </nav>
