@@ -13,6 +13,7 @@ public interface ProdottoDAO {
         // Recupera prodotto per id
         ProdottoBean getProdottoById(String id);
 
+        List<ProdottoBean> getAllProducts();
         // Recupera prodotti per brand
         List<ProdottoBean> getProdottiByBrand(String brand);
 
@@ -21,5 +22,7 @@ public interface ProdottoDAO {
 
         // Recupera prodotto per ordine di prezzo
         List<ProdottoBean> getProdottiSortedByPrice(boolean ascending);
+
+        byte[] getProductImageById(String id);
 }
 

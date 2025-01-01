@@ -16,23 +16,6 @@
 </head>
 <body>
 <%@include file="/resources/templates/header.jsp"%>
-<%
-    // Creazione di un nuovo utente e salvataggio nel database
-    String username = "newUser";
-    String email = "newuser@email.com";
-    String password = "password123";
-    String role = "User";
-
-    UserBean user = new UserBean(username, email, password, role);
-    UserDAO<UserBean> userDAO = new UserDAOImpl();
-    boolean isSaved = false;
-
-    try {
-        isSaved = userDAO.saveUser(user);
-    } catch (SQLException e) {
-        e.printStackTrace();
-    }
-%>
 <section class="home" id="home">
     <div class="content">
         <h3>Pop!X</h3>

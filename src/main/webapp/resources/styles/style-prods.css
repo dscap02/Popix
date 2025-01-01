@@ -1,0 +1,227 @@
+/* General Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+    outline: none;
+    border: none;
+    text-decoration: none;
+    transition: .2s linear;
+}
+
+html {
+    font-size: 62.5%;
+    scroll-behavior: smooth;
+    scroll-padding-top: 6rem;
+    overflow-x: hidden;
+}
+
+section {
+    padding: 2rem 9%;
+}
+
+/* Sidebar for Filters */
+.sidebar {
+    flex: 1 1 20%;
+    padding: 1rem;
+    border: 1px solid #ccc;
+    border-radius: .5rem;
+    box-sizing: border-box;
+    background-color: #f9f9f9;
+}
+
+.sidebar form {
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar input, .sidebar select, .sidebar button {
+    margin-bottom: 1rem;
+    padding: .8rem;
+    font-size: 1rem;
+    box-sizing: border-box;
+    border-radius: .5rem;
+    border: 1px solid #ccc;
+}
+
+.sidebar select {
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.sidebar button {
+    background-color: #9966ff;
+    color: white;
+    font-weight: bold;
+    transition: background-color .3s;
+}
+
+.sidebar button:hover {
+    background-color: #7f55d9;
+}
+
+/* Products Section */
+.container {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 1.5rem;
+    padding-top: 12rem; /* Adjust padding to make space for header */
+}
+
+.products {
+    flex: 1 1 75%;
+    box-sizing: border-box;
+}
+
+.products .box-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+}
+
+.products .box-container .box {
+    flex: 1 1 30rem;
+    box-shadow: 0 .5rem 1.5rem rgba(0, 0, 0, .1);
+    border-radius: .5rem;
+    border: .1rem solid rgba(0, 0, 0, .1);
+    position: relative;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+.products .box-container .box .image {
+    position: relative;
+    text-align: center;
+    padding-top: 2rem;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+.products .box-container .box .image img {
+    height: 25rem;
+    transition: transform 0.3s;
+}
+
+.products .box-container .box:hover .image img {
+    transform: scale(1.1);
+}
+
+.products .box-container .box .content {
+    padding: 2rem;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+.products .box-container .box .content h3 {
+    font-size: 2.5rem;
+    color: #333;
+}
+
+.products .box-container .box .content .price {
+    font-size: 2.5rem;
+    color: #9966ff;
+    font-weight: bolder;
+    padding-top: 1rem;
+}
+
+/* Pagination Styles */
+nav {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+/* Removing underline from page links */
+.pagination .page-link {
+    text-decoration: none;
+}
+
+/* Optional: Style for active page */
+.pagination .page-item.active .page-link {
+    background-color: #9966ff;
+    border-color: #9966ff;
+    color: #fff;
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 991px) {
+    html {
+        font-size: 55%;
+    }
+
+    header {
+        padding: 2rem;
+    }
+
+    section {
+        padding: 2rem;
+    }
+
+    .home {
+        background-position: left;
+    }
+}
+
+@media (max-width: 768px) {
+    header .fa-bars {
+        display: block;
+    }
+
+    header .navbar {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: #eee;
+        border-top: .1rem solid rgba(0, 0, 0, .1);
+        clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
+    }
+
+    header #toggler:checked ~ .navbar {
+        clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+    }
+
+    header .navbar {
+        justify-content: center; /* Center navbar items */
+    }
+
+    header .navbar a {
+        margin: 1rem; /* Adjust spacing */
+        padding: 1rem; /* Adjust padding */
+        background: #9966ff;
+        border: .1rem solid rgba(0, 0, 0, .1);
+        display: block;
+    }
+
+    .container {
+        flex-wrap: wrap; /* Allow sidebar and products to wrap */
+    }
+
+    .sidebar {
+        flex: 1 1 100%; /* Full width on small screens */
+        margin-bottom: 2rem; /* Add some space between the sidebar and products */
+    }
+
+    .products {
+        flex: 1 1 100%; /* Full width on small screens */
+    }
+
+    .products .box-container {
+        justify-content: center; /* Center product boxes on small screens */
+    }
+}
+
+@media (max-width: 450px) {
+    html {
+        font-size: 55%;
+    }
+
+    header {
+        padding: 2rem;
+    }
+
+    .heading {
+        font-size: 3rem;
+    }
+}

@@ -18,7 +18,7 @@
     <a href="#" class="logo">Pop<span>!</span>x</a>
     <nav class="navbar">
         <a href="${pageContext.request.contextPath}/jsp/HomePage.jsp">Home</a>
-        <a href="${pageContext.request.contextPath}#">Prodotti</a>
+        <a href="${pageContext.request.contextPath}/getProductsServlet">Prodotti</a>
     </nav>
     <div class="icons">
         <a href="#" class="fas fa-shopping-cart"></a>

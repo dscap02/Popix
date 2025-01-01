@@ -140,4 +140,46 @@ public class ProdottoDAOImpl implements ProdottoDAO {
         }
         return prodotti;
     }
+
+    @Override
+    public byte[] getProductImageById(String id) {
+        String query = "SELECT img FROM Prodotto WHERE id = ?";
+        try (Connection connection = ds.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setString(1, id);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                return resultSet.getBytes("img");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public List<ProdottoBean> getAllProducts() {
+        List<ProdottoBean> products = new ArrayList<>();
+        try (Connection con = ds.getConnection();
+             PreparedStatement ps = con.prepareStatement("SELECT * FROM prodotto ORDER BY id");) {
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                ProdottoBean prodotto = new ProdottoBean();
+                prodotto.setId(rs.getString("id"));
+                prodotto.setName(rs.getString("name"));
+                prodotto.setCost(rs.getDouble("cost"));
+                // aggiungi altre colonne se necessario
+                products.add(prodotto);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return products;
+    }
+
 }
+
+
+
+
+

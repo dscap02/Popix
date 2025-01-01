@@ -36,4 +36,12 @@
         <location>/jsp/error-pages/500.jsp</location>
     </error-page>
 
+    <servlet>
+        <servlet-name>GetProductsServlet</servlet-name>
+        <servlet-class>com.popx.presentazione.GetProductsServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>GetProductsServlet</servlet-name>
+        <url-pattern>/getProductsServlet</url-pattern>
+    </servlet-mapping>
 </web-app>
