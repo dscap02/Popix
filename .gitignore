@@ -1,0 +1,27 @@
+credentials.txt
+
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# Compiled output
+out/
+target/
+
+# OS-specific files
+.DS_Store
+
+# Package directories
+/node_modules/
+dist/
+
+# Environment files
+*.env
+*.env.*
+
+# Windows thumbnail cache files
+Thumbs.db
+ehthumbs.db
+
+

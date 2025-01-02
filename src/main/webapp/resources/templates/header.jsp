@@ -1,10 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: user
-  Date: 30/12/2024
-  Time: 17:08
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -21,9 +14,21 @@
         <a href="${pageContext.request.contextPath}/getProductsServlet">Prodotti</a>
     </nav>
     <div class="icons">
-        <a href="#" class="fas fa-shopping-cart"></a>
-        <a href="${pageContext.request.contextPath}/jsp/Registation.jsp" class="fas fa-sign-in-alt"></a>
+        <a href="${pageContext.request.contextPath}/jsp/Catalog.jsp" class="fas fa-shopping-cart"></a>
 
+        <%
+            Object role = session.getAttribute("role");
+            if (role == null) {
+        %>
+        <a href="${pageContext.request.contextPath}/jsp/Login.jsp" class="fas fa-sign-in-alt"></a>
+        <%
+        } else {
+        %>
+        <a href="${pageContext.request.contextPath}#" class="fas fa-user<%= role.equals("Gestore") ? "-cog" : role.equals("Admin") ? "-shield" : "" %>"></a>
+        <a href="${pageContext.request.contextPath}#" class="fas fa-sign-out-alt"></a>
+        <%
+            }
+        %>
     </div>
 </header>
 </body>

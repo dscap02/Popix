@@ -9,15 +9,16 @@ public class AuthenticationService {
 
     public UserBean login(String email, String password) throws Exception {
         UserBean user = userDAO.getUserByEmail(email);
+
         if (user != null && SecurityService.checkPassword(password, user.getPassword())) {
             return user;
         }
         throw new Exception("Invalid credentials");
     }
 
+
     public boolean registerUser(UserBean user) throws Exception {
         if (userDAO.getUserByEmail(user.getEmail()) == null) {
-            user.setPassword(SecurityService.hashPassword(user.getPassword()));
             return userDAO.saveUser(user);
         }
         throw new Exception("User already exists");
@@ -25,5 +26,10 @@ public class AuthenticationService {
 
     public boolean isEmailRegistered(String email) throws Exception {
         return userDAO.getUserByEmail(email) != null;
+    }
+
+    public String retrieveRole(String email) throws Exception {
+        UserBean user = userDAO.getUserByEmail(email);
+        return user.getRole();
     }
 }
