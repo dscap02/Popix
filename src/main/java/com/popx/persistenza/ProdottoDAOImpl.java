@@ -5,6 +5,7 @@ import com.popx.modello.ProdottoBean;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
+import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 import java.sql.*;
 import java.util.ArrayList;
@@ -207,6 +208,32 @@ public class ProdottoDAOImpl implements ProdottoDAO {
             }
         }
         return products;
+    }
+
+    @Override
+    public void updateProductQtyInCart(HttpSession session, String productId, int qty) {
+        List<ProdottoBean> cart = (List<ProdottoBean>) session.getAttribute("cart");
+        if (cart != null) {
+            for (ProdottoBean product : cart) {
+                if (product.getId().equals(productId)) {
+                    product.setQty(qty);
+                    break;
+                }
+            }
+        }
+    }
+
+    @Override
+    public int getProductQtyInCart(HttpSession session, String productId) {
+        List<ProdottoBean> cart = (List<ProdottoBean>) session.getAttribute("cart");
+        if (cart != null) {
+            for (ProdottoBean product : cart) {
+                if (product.getId().equals(productId)) {
+                    return product.getQty();
+                }
+            }
+        }
+        return 0;
     }
 
 

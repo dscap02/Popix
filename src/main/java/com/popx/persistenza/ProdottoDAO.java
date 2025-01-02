@@ -4,6 +4,7 @@ import com.popx.modello.ProdottoBean;
 
 import java.sql.SQLException;
 import java.util.List;
+import javax.servlet.http.HttpSession;
 
 public interface ProdottoDAO {
 
@@ -27,5 +28,10 @@ public interface ProdottoDAO {
         byte[] getProductImageById(String id);
 
         List<ProdottoBean> getRandomProducts(int limit) throws SQLException;
+
+        void updateProductQtyInCart(HttpSession session, String productId, int qty);
+        int getProductQtyInCart(HttpSession session, String productId);
 }
+
+
 

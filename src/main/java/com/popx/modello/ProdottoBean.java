@@ -15,6 +15,8 @@ public class ProdottoBean implements Serializable {
     private byte[] img;
     private String figure;
 
+    private int qty;
+
     // Constructors
 
     public ProdottoBean() {
@@ -93,6 +95,14 @@ public class ProdottoBean implements Serializable {
 
     public void setFigure(String figure) {
         this.figure = figure;
+    }
+
+    public int getQty() {
+        return qty;
+    }
+
+    public void setQty(int qty) {
+        this.qty = qty;
     }
 
     @Override

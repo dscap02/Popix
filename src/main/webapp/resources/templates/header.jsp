@@ -14,7 +14,7 @@
         <a href="${pageContext.request.contextPath}/getProductsServlet">Prodotti</a>
     </nav>
     <div class="icons">
-        <a href="${pageContext.request.contextPath}/jsp/Catalog.jsp" class="fas fa-shopping-cart"></a>
+        <a href="${pageContext.request.contextPath}/jsp/Cart.jsp" class="fas fa-shopping-cart"></a>
 
         <%
             Object role = session.getAttribute("role");
