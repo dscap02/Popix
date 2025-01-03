@@ -15,17 +15,20 @@
     </nav>
     <div class="icons">
         <a href="${pageContext.request.contextPath}/jsp/Cart.jsp" class="fas fa-shopping-cart"></a>
-
         <%
             Object role = session.getAttribute("role");
             if (role == null) {
         %>
+        <!-- Icona per il login -->
         <a href="${pageContext.request.contextPath}/jsp/Login.jsp" class="fas fa-sign-in-alt"></a>
         <%
         } else {
         %>
-        <a href="${pageContext.request.contextPath}#" class="fas fa-user<%= role.equals("Gestore") ? "-cog" : role.equals("Admin") ? "-shield" : "" %>"></a>
-        <a href="${pageContext.request.contextPath}#" class="fas fa-sign-out-alt"></a>
+        <!-- Icona per l'utente con ruolo -->
+        <a href="${pageContext.request.contextPath}#" class="fas fa-user<%=
+            role.equals("Gestore") ? "-cog" : role.equals("Admin") ? "-shield" : "" %>"></a>
+        <!-- Icona per il logout -->
+        <a href="${pageContext.request.contextPath}/logout" class="fas fa-sign-out-alt" title="Logout"></a>
         <%
             }
         %>
