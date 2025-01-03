@@ -236,5 +236,106 @@ public class ProdottoDAOImpl implements ProdottoDAO {
         return 0;
     }
 
+    @Override
+    public void saveCartToDatabase(String userEmail, List<ProdottoBean> cart) throws SQLException {
+        String insertCartQuery = "INSERT INTO Carrello (cliente_email) VALUES (?) " +
+                "ON DUPLICATE KEY UPDATE id=LAST_INSERT_ID(id)";
+
+        String insertProductCartQuery = "INSERT INTO ProdottoCarrello (carrello_id, prodotto_id, quantity, unitary_cost) " +
+                "VALUES (?, ?, ?, ?) " +
+                "ON DUPLICATE KEY UPDATE quantity = VALUES(quantity), unitary_cost = VALUES(unitary_cost)";
+
+        try (Connection connection = ds.getConnection();
+             PreparedStatement cartStmt = connection.prepareStatement(insertCartQuery, Statement.RETURN_GENERATED_KEYS);
+             PreparedStatement productCartStmt = connection.prepareStatement(insertProductCartQuery)) {
+
+            // Inserisci o aggiorna il carrello
+            cartStmt.setString(1, userEmail);
+            cartStmt.executeUpdate();
+
+            // Ottieni l'ID del carrello
+            int cartId;
+            try (ResultSet rs = cartStmt.getGeneratedKeys()) {
+                if (rs.next()) {
+                    cartId = rs.getInt(1);
+                } else {
+                    throw new SQLException("Impossibile ottenere l'ID del carrello.");
+                }
+            }
+
+            // Inserisci o aggiorna i prodotti nel carrello
+            for (ProdottoBean product : cart) {
+                productCartStmt.setInt(1, cartId);
+                productCartStmt.setString(2, product.getId());
+                productCartStmt.setInt(3, product.getQty());
+                productCartStmt.setDouble(4, product.getCost());
+
+                productCartStmt.executeUpdate();
+            }
+        }
+    }
+
+    @Override
+    public List<ProdottoBean> getCartByUserEmail(String userEmail) throws SQLException {
+        List<ProdottoBean> cart = new ArrayList<>();
+        String query = "SELECT p.id, p.name, p.pieces_in_stock, p.cost, pc.quantity " +
+                "FROM Prodotto p " +
+                "JOIN ProdottoCarrello pc ON p.id = pc.prodotto_id " +
+                "JOIN Carrello c ON pc.carrello_id = c.id " +
+                "WHERE c.cliente_email = ?";
+
+
+        try (Connection connection = ds.getConnection();
+             PreparedStatement ps = connection.prepareStatement(query)) {
+
+            ps.setString(1, userEmail);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    ProdottoBean prodotto = new ProdottoBean();
+                    prodotto.setId(rs.getString("id"));
+                    prodotto.setName(rs.getString("name"));
+                    prodotto.setPiecesInStock(rs.getInt("pieces_in_stock"));
+                    prodotto.setCost(rs.getDouble("cost"));
+                    prodotto.setQty(rs.getInt("quantity"));
+                    cart.add(prodotto);
+                }
+            }
+        }
+        return cart;
+    }
+
+    public void updateCartProductQuantityInDatabase(String userEmail, String productId, int qty) throws SQLException {
+        String query = "UPDATE ProdottoCarrello pc " +
+                "JOIN Carrello c ON pc.carrello_id = c.id " +
+                "SET pc.quantity = ? " +
+                "WHERE c.cliente_email = ? AND pc.prodotto_id = ?";
+
+        try (Connection connection = ds.getConnection();
+             PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setInt(1, qty);
+            stmt.setString(2, userEmail);
+            stmt.setString(3, productId);
+
+            stmt.executeUpdate();
+        }
+    }
+
+    public void removeProductFromCart(String userEmail, String productId) throws SQLException {
+        String query = "DELETE pc FROM ProdottoCarrello pc " +
+                "JOIN Carrello c ON pc.carrello_id = c.id " +
+                "WHERE c.cliente_email = ? AND pc.prodotto_id = ?";
+
+        try (Connection connection = ds.getConnection();
+             PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setString(1, userEmail);
+            stmt.setString(2, productId);
+
+            stmt.executeUpdate();
+        }
+    }
+
+
+
+
 
 }

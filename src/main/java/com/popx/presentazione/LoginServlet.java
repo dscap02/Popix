@@ -25,6 +25,7 @@ public class LoginServlet extends HttpServlet {
             UserBean user = authService.login(email, password);
             HttpSession session = request.getSession(true);
             session.setAttribute("role", user.getRole());
+            session.setAttribute("userEmail", user.getEmail());
             response.setStatus(HttpServletResponse.SC_OK);
         } catch (Exception e) {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED); // 401 Unauthorized

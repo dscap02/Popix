@@ -28,7 +28,21 @@
             <div class="cart-items">
                 <%
                     ProdottoDAOImpl prodottoDao = new ProdottoDAOImpl();
-                    List<ProdottoBean> cart = (List<ProdottoBean>) session.getAttribute("cart");
+                    List<ProdottoBean> cart = null;
+                    String userEmail = (String) session.getAttribute("userEmail");
+
+                    if (userEmail != null) {
+                        // Recupera il carrello dal database per l'utente loggato
+                        try {
+                            cart = prodottoDao.getCartByUserEmail(userEmail);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    } else {
+                        // Usa il carrello dalla sessione se l'utente non è loggato
+                        cart = (List<ProdottoBean>) session.getAttribute("cart");
+                    }
+
                     if (cart != null && !cart.isEmpty()) {
                         for (ProdottoBean product : cart) {
                 %>
@@ -38,8 +52,9 @@
                         <h3><%= product.getName() %></h3>
                         <p>Disponibilità: <%= product.getPiecesInStock() %></p>
                         <div class="quantity-control">
-                            <input type="number" class="quantity-input" value="<%= prodottoDao.getProductQtyInCart(session, product.getId()) %>"
-                                   min="1" max="<%= product.getPiecesInStock() %>">
+                            <input type="number" class="quantity-input" value="<%= product.getQty() %>"
+                                    min="1" max="<%= product.getPiecesInStock() %>">
+
                             <button class="update-qty" data-id="<%= product.getId() %>">Aggiorna</button>
                         </div>
                         <p>Prezzo: $<%= product.getCost() %></p>
@@ -61,9 +76,9 @@
                     <%
                         double sum = 0;
                         String formattedSum = "0.00";
-                        if(cart != null) {
+                        if (cart != null) {
                             for (ProdottoBean product : cart) {
-                                sum += product.getCost() * prodottoDao.getProductQtyInCart(session, product.getId());
+                                sum += product.getCost() * product.getQty();
                             }
                             formattedSum = String.format("%.2f", sum);
                         }

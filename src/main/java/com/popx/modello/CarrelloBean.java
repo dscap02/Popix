@@ -1,27 +1,17 @@
 package com.popx.modello;
 
-
-import java.util.Map;
+import java.util.List;
 
 public class CarrelloBean {
-    private String id;
     private String clienteEmail;
-    private Map<String, Integer> prodotti; // Prodotto ID e Quantità
+    private List<ProdottoCarrelloBean> prodottiCarrello;  // Relazione con ProdottiCarrello
 
+    // Costruttori, getter e setter
     public CarrelloBean() {}
 
-    public CarrelloBean(String id, String clienteEmail, Map<String, Integer> prodotti) {
-        this.id = id;
+    public CarrelloBean(String clienteEmail, List<ProdottoCarrelloBean> prodottiCarrello) {
         this.clienteEmail = clienteEmail;
-        this.prodotti = prodotti;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
+        this.prodottiCarrello = prodottiCarrello;
     }
 
     public String getClienteEmail() {
@@ -32,12 +22,11 @@ public class CarrelloBean {
         this.clienteEmail = clienteEmail;
     }
 
-    public Map<String, Integer> getProdotti() {
-        return prodotti;
+    public List<ProdottoCarrelloBean> getProdottiCarrello() {
+        return prodottiCarrello;
     }
 
-    public void setProdotti(Map<String, Integer> prodotti) {
-        this.prodotti = prodotti;
+    public void setProdottiCarrello(List<ProdottoCarrelloBean> prodottiCarrello) {
+        this.prodottiCarrello = prodottiCarrello;
     }
 }
-

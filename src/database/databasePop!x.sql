@@ -49,8 +49,8 @@ CREATE TABLE MetodoPagamento (
 
 -- Table: Carrello
 CREATE TABLE Carrello (
-    id VARCHAR(5) PRIMARY KEY,
-    cliente_email VARCHAR(100),
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    cliente_email VARCHAR(100) UNIQUE, -- Vincolo UNIQUE
     FOREIGN KEY (cliente_email) REFERENCES Cliente(utente_registrato_email)
 );
 
@@ -68,14 +68,16 @@ CREATE TABLE Prodotto (
 
 -- Table: ProdottoCarrello
 CREATE TABLE ProdottoCarrello (
-    id VARCHAR(5) PRIMARY KEY,
-    carrello_id VARCHAR(5),
+    carrello_id INT,
     prodotto_id VARCHAR(5),
     quantity INT NOT NULL,
     unitary_cost FLOAT NOT NULL,
+    PRIMARY KEY (carrello_id, prodotto_id), -- Vincolo PRIMARY KEY
     FOREIGN KEY (carrello_id) REFERENCES Carrello(id),
     FOREIGN KEY (prodotto_id) REFERENCES Prodotto(id)
 );
+
+
 
 -- Table: Ordine
 CREATE TABLE Ordine (

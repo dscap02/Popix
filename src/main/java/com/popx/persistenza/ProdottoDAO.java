@@ -31,6 +31,15 @@ public interface ProdottoDAO {
 
         void updateProductQtyInCart(HttpSession session, String productId, int qty);
         int getProductQtyInCart(HttpSession session, String productId);
+
+        void saveCartToDatabase(String userEmail, List<ProdottoBean> cart) throws SQLException;
+
+        List<ProdottoBean> getCartByUserEmail(String userEmail) throws SQLException;
+
+        void updateCartProductQuantityInDatabase(String userEmail, String productId, int qty) throws SQLException;
+
+        void removeProductFromCart(String userEmail, String productId) throws SQLException;
+
 }
 
 
