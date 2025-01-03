@@ -19,12 +19,9 @@ public class UpdateCartServlet extends HttpServlet {
 
         try {
             qty = Integer.parseInt(request.getParameter("qty"));
-            System.out.println(qty);
         } catch (NumberFormatException e) {
             qty = 1; // Quantità predefinita
         }
-
-        System.out.println("dddd"+qty);
 
         HttpSession session = request.getSession();
         ProdottoDAOImpl prodottoDao = new ProdottoDAOImpl();

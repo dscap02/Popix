@@ -37,7 +37,7 @@ public class AddToCartServlet extends HttpServlet {
             boolean productExists = false;
             for (ProdottoBean cartItem : cart) {
                 if (cartItem.getId().equals(prodotto.getId())) {
-                    if (prodottoDAO.getProductQtyInCart(session,cartItem.getId()) < prodotto.getPiecesInStock()) {
+                    if ((prodottoDAO.getProductQtyInCart(session,cartItem.getId())+quantity) <= prodotto.getPiecesInStock()) {
                         prodottoDAO.updateProductQtyInCart(session, cartItem.getId(), quantity+ prodottoDAO.getProductQtyInCart(session, cartItem.getId()));  // Utilizza il metodo dedicato
                         productExists = true;
                         break;
