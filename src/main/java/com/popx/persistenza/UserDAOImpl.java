@@ -44,20 +44,35 @@ public class UserDAOImpl implements UserDAO<UserBean> {
 
     @Override
     public boolean saveUser(UserBean user) throws SQLException {
-        String query = "INSERT INTO UtenteRegistrato (username, email, password, role) VALUES (?, ?, ?, ?)";
-        try (Connection conn = ds.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(query)) {
-            stmt.setString(1, user.getUsername());
-            stmt.setString(2, user.getEmail());
-            stmt.setString(3, com.popx.servizio.SecurityService.hashPassword(user.getPassword()));
+        String userQuery = "INSERT INTO UtenteRegistrato (username, email, password, role) VALUES (?, ?, ?, ?)";
+        String clienteQuery = "INSERT INTO Cliente (utente_registrato_email) VALUES (?)";
 
-            // Imposta il ruolo di default su 'User'
-            String defaultRole = "User";
-            stmt.setString(4, defaultRole);
+        try (Connection conn = ds.getConnection()) {
+            conn.setAutoCommit(false); // Disabilita l'auto-commit per supportare le transazioni
 
-            return stmt.executeUpdate() > 0;
+            try (PreparedStatement userStmt = conn.prepareStatement(userQuery);
+                 PreparedStatement clienteStmt = conn.prepareStatement(clienteQuery)) {
+
+                // Inserimento in UtenteRegistrato
+                userStmt.setString(1, user.getUsername());
+                userStmt.setString(2, user.getEmail());
+                userStmt.setString(3, com.popx.servizio.SecurityService.hashPassword(user.getPassword()));
+                userStmt.setString(4, "User"); // Ruolo di default 'User'
+                userStmt.executeUpdate();
+
+                // Inserimento in Cliente
+                clienteStmt.setString(1, user.getEmail());
+                clienteStmt.executeUpdate();
+
+                conn.commit(); // Commit delle modifiche
+                return true;
+            } catch (SQLException e) {
+                conn.rollback(); // Rollback in caso di errore
+                throw e;
+            }
         }
     }
+
     // Metodo disponibile solo in UserDAOImpl
     public List<UserBean> getAllUsers() throws SQLException {
         List<UserBean> users = new ArrayList<>();
