@@ -17,8 +17,6 @@ public class RemoveFromCartServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String productId = request.getParameter("productId");
 
-        System.out.println(productId);
-
         HttpSession session = request.getSession();
         List<ProdottoBean> cart = (List<ProdottoBean>) session.getAttribute("cart");
 

@@ -16,16 +16,26 @@ public class UpdateCartServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String productId = request.getParameter("productId");
         int qty;
+
         try {
             qty = Integer.parseInt(request.getParameter("qty"));
+            System.out.println(qty);
         } catch (NumberFormatException e) {
             qty = 1; // Quantità predefinita
         }
 
+        System.out.println("dddd"+qty);
+
         HttpSession session = request.getSession();
         ProdottoDAOImpl prodottoDao = new ProdottoDAOImpl();
-        prodottoDao.updateProductQtyInCart(session, productId, qty);
 
-        response.sendRedirect(request.getContextPath() + "/jsp/Cart.jsp");
+        try {
+            prodottoDao.updateProductQtyInCart(session, productId, qty);
+            response.setStatus(HttpServletResponse.SC_OK);
+            response.getWriter().write("{\"success\": true}");
+        } catch (Exception e) {
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            response.getWriter().write("{\"success\": false, \"message\": \"Errore nell'aggiornamento del carrello.\"}");
+        }
     }
 }

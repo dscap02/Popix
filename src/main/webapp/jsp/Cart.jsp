@@ -35,7 +35,6 @@
                 <div class="cart-item">
                     <img src="<%= request.getContextPath() %>/getPictureServlet?id=<%= product.getId()%>" alt="Product image">
                     <div class="item-details">
-                        <% System.out.println("Sono nel carrello e id è "+product.getId());%>
                         <h3><%= product.getName() %></h3>
                         <p>Disponibilità: <%= product.getPiecesInStock() %></p>
                         <div class="quantity-control">
