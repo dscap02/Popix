@@ -13,6 +13,8 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>var contextPath = '<%= request.getContextPath()%>'; </script>
     <script src="https://kit.fontawesome.com/892069e9ac.js" crossorigin="anonymous"></script>
+    <script src="${pageContext.request.contextPath}/scripts/updateCart.js"></script>
+    <script src="${pageContext.request.contextPath}/scripts/removeItem.js"></script>
     <title>Carrello</title>
 </head>
 <body>
@@ -33,9 +35,14 @@
                 <div class="cart-item">
                     <img src="<%= request.getContextPath() %>/getPictureServlet?id=<%= product.getId()%>" alt="Product image">
                     <div class="item-details">
+                        <% System.out.println("Sono nel carrello e id è "+product.getId());%>
                         <h3><%= product.getName() %></h3>
                         <p>Disponibilità: <%= product.getPiecesInStock() %></p>
-                        <p>Elementi nel carrello: <%= prodottoDao.getProductQtyInCart(session, product.getId()) %></p> <!-- Usa il DAO per la quantità -->
+                        <div class="quantity-control">
+                            <input type="number" class="quantity-input" value="<%= prodottoDao.getProductQtyInCart(session, product.getId()) %>"
+                                   min="1" max="<%= product.getPiecesInStock() %>">
+                            <button class="update-qty" data-id="<%= product.getId() %>">Aggiorna</button>
+                        </div>
                         <p>Prezzo: $<%= product.getCost() %></p>
                     </div>
                     <button class="remove-item" data-id="<%= product.getId() %>"><i class="fas fa-trash-alt"></i></button>
@@ -52,20 +59,17 @@
             <div class="cart-summary">
                 <h3>Riepilogo</h3>
                 <div class="summary-details">
-
                     <%
                         double sum = 0;
                         String formattedSum = "0.00";
                         if(cart != null) {
                             for (ProdottoBean product : cart) {
-                                sum += product.getCost()*prodottoDao.getProductQtyInCart(session, product.getId());
+                                sum += product.getCost() * prodottoDao.getProductQtyInCart(session, product.getId());
                             }
                             formattedSum = String.format("%.2f", sum);
                         }
-
                     %>
-                    <p id="sum"> Totale: <%=formattedSum%> </p>
-
+                    <p id="sum"> Totale: <%= formattedSum %> </p>
                 </div>
                 <button class="checkout-btn" id="checkout">CHECKOUT</button>
             </div>
