@@ -26,8 +26,12 @@ public class RemoveFromCartServlet extends HttpServlet {
         // Recupera l'email dell'utente
         String userEmail = (String) session.getAttribute("userEmail");
 
+
+
         try {
             if (productId != null && !productId.isEmpty() && cart != null) {
+
+
                 // Rimuovi il prodotto dal carrello in sessione
                 cart.removeIf(product -> product.getId().equals(productId));
                 session.setAttribute("cart", cart);

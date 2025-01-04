@@ -30,15 +30,17 @@
                     ProdottoDAOImpl prodottoDao = new ProdottoDAOImpl();
                     List<ProdottoBean> cart = null;
                     String userEmail = (String) session.getAttribute("userEmail");
+                    cart = (List<ProdottoBean>) session.getAttribute("cart");
 
-                    if (userEmail != null) {
+                    if (userEmail != null && cart == null) {
                         // Recupera il carrello dal database per l'utente loggato
                         try {
                             cart = prodottoDao.getCartByUserEmail(userEmail);
+                            session.setAttribute("cart", cart);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
-                    } else {
+                    } else  {
                         // Usa il carrello dalla sessione se l'utente non è loggato
                         cart = (List<ProdottoBean>) session.getAttribute("cart");
                     }
