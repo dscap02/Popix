@@ -25,8 +25,17 @@
         } else {
         %>
         <!-- Icona per l'utente con ruolo -->
-        <a href="${pageContext.request.contextPath}#" class="fas fa-user<%=
-            role.equals("Gestore") ? "-cog" : role.equals("Admin") ? "-shield" : "" %>"></a>
+            <a href="${pageContext.request.contextPath}/<%=
+                role.equals("Admin") ? "getAdminServlet" :
+                role.equals("Gestore") ? "gestoreServlet" :
+                role.equals("User") ? "userServlet" :
+                "#" %>"
+                       class="fas fa-user<%=
+                role.equals("Gestore") ? "-cog" :
+                role.equals("Admin") ? "-shield" :
+                "" %>">
+            </a>
+
         <!-- Icona per il logout -->
         <a href="${pageContext.request.contextPath}/logout" class="fas fa-sign-out-alt" title="Logout"></a>
         <%

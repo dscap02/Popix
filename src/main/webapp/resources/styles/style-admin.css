@@ -1,0 +1,212 @@
+/* Stile generale per integrare header e footer */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    padding-top: 8rem; /* Compensa l'altezza dell'header fisso */
+    padding-bottom: 10rem; /* Spazio per il footer */
+}
+
+/* Dashboard: sezione principale */
+.dashboard-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Titolo della dashboard */
+.dashboard-container h1 {
+    font-size: 2.5rem;
+    color: #333;
+    text-align: center;
+    margin-bottom: 2rem;
+    border-bottom: 2px solid #9966ff;
+    padding-bottom: 1rem;
+}
+
+/* Stile della tabella */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 2rem;
+    background: #fefefe;
+}
+
+table, th, td {
+    border: 1px solid #ddd;
+}
+
+th {
+    color: #000; /* Colore nero per l'intestazione */
+    background-color: #e7dcff;
+    font-size: 1.8rem;
+    font-weight: bold;
+}
+
+td {
+    padding: 10px;
+    text-align: center;
+    font-size: 1.6rem;
+    color: #333;
+}
+
+/* Pulsanti azioni */
+button {
+    padding: 5px 15px;
+    background-color: #9966ff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.5rem;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #5b38b0;
+}
+
+.btn-group {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+/* Stile paginazione */
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+    list-style: none;
+    gap: 10px;
+}
+
+.pagination a, .pagination span {
+    display: block;
+    padding: 8px 12px;
+    background-color: #9966ff;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 1.5rem;
+    transition: background-color 0.3s;
+}
+
+.pagination a:hover {
+    background-color: #5b38b0;
+}
+
+.pagination .active {
+    background-color: #5b38b0;
+}
+
+/* Adattamenti per header e footer */
+header {
+    height: 6rem; /* Altezza ridotta */
+    padding: 1.5rem 5%;
+}
+
+header .header-photo {
+    width: 5rem; /* Adattamento dimensioni logo */
+    margin-left: 0;
+}
+
+header .logo {
+    font-size: 2.5rem;
+}
+
+header .navbar a {
+    font-size: 1.8rem;
+    padding: 0 1rem;
+}
+
+header .icons a {
+    font-size: 2rem;
+}
+
+.footer {
+    padding: 2rem 5%;
+}
+
+.footer .box h3 {
+    font-size: 2rem;
+}
+
+.footer .box a {
+    font-size: 1.4rem;
+}
+
+/* Stile responsive */
+@media (max-width: 768px) {
+    .dashboard-container {
+        padding: 1rem;
+    }
+
+    table th, table td {
+        font-size: 1.4rem;
+        padding: 8px;
+    }
+
+    button {
+        font-size: 1.3rem;
+        padding: 5px 10px;
+    }
+
+    .pagination a, .pagination span {
+        font-size: 1.3rem;
+        padding: 6px 10px;
+    }
+
+    header {
+        height: 5rem;
+        padding: 1rem 5%;
+    }
+
+    header .header-photo {
+        width: 4rem;
+    }
+
+    header .logo {
+        font-size: 2rem;
+    }
+
+    header .navbar a {
+        font-size: 1.6rem;
+    }
+
+    header .icons a {
+        font-size: 1.8rem;
+    }
+}
+
+@media (max-width: 480px) {
+    table {
+        font-size: 1.2rem;
+    }
+
+    button {
+        font-size: 1.1rem;
+        padding: 4px 8px;
+    }
+
+    .pagination a, .pagination span {
+        font-size: 1.1rem;
+        padding: 4px 8px;
+    }
+
+    header {
+        height: 4.5rem;
+    }
+
+    header .header-photo {
+        width: 3.5rem;
+    }
+
+    header .logo {
+        font-size: 1.8rem;
+    }
+}

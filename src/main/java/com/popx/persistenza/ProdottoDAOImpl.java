@@ -166,15 +166,21 @@ public class ProdottoDAOImpl implements ProdottoDAO {
     @Override
     public List<ProdottoBean> getAllProducts() {
         List<ProdottoBean> products = new ArrayList<>();
+        String query = "SELECT * FROM Prodotto ORDER BY id";
         try (Connection con = ds.getConnection();
-             PreparedStatement ps = con.prepareStatement("SELECT * FROM prodotto ORDER BY id");) {
-            ResultSet rs = ps.executeQuery();
+             PreparedStatement ps = con.prepareStatement(query);
+             ResultSet rs = ps.executeQuery()) {
+
             while (rs.next()) {
                 ProdottoBean prodotto = new ProdottoBean();
                 prodotto.setId(rs.getString("id"));
                 prodotto.setName(rs.getString("name"));
+                prodotto.setDescription(rs.getString("description"));
                 prodotto.setCost(rs.getDouble("cost"));
-                prodotto.setFigure(rs.getString("figure"));  // Set the figure field
+                prodotto.setPiecesInStock(rs.getInt("pieces_in_stock")); // Recupero del valore
+                prodotto.setBrand(rs.getString("brand"));
+                prodotto.setImg(rs.getBytes("img"));
+                prodotto.setFigure(rs.getString("figure"));
                 products.add(prodotto);
             }
         } catch (SQLException e) {
@@ -182,6 +188,7 @@ public class ProdottoDAOImpl implements ProdottoDAO {
         }
         return products;
     }
+
 
     @Override
     public List<ProdottoBean> getRandomProducts(int limit) throws SQLException {
