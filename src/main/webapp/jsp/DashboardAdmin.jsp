@@ -14,6 +14,8 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/styles/style-admin.css">
     <script>var contextPath = '<%= request.getContextPath() %>'</script>
     <script src="https://kit.fontawesome.com/892069e9ac.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="${pageContext.request.contextPath}/scripts/removeProduct.js"></script>
     <title>Popix - Admin Dashboard</title>
 </head>
 <body>
@@ -77,8 +79,9 @@
             <td><%= product.getPiecesInStock() %></td>
             <td>
                 <div class="btn-group">
+
                     <button>Modifica</button>
-                    <button>Elimina</button>
+                    <button id="deleteProductBtn" data-id="<%= product.getId() %>">Elimina</button>
                 </div>
             </td>
         </tr>

@@ -341,6 +341,26 @@ public class ProdottoDAOImpl implements ProdottoDAO {
         }
     }
 
+    @Override
+    public void deleteProductById(String id) throws SQLException {
+        String deleteProductQuery = "DELETE FROM Prodotto WHERE id = ?";
+        String deleteFromCartQuery = "DELETE FROM ProdottoCarrello WHERE prodotto_id = ?";
+
+        try (Connection connection = ds.getConnection()) {
+            // Rimuovi il prodotto dalla tabella ProdottoCarrello
+            try (PreparedStatement cartStatement = connection.prepareStatement(deleteFromCartQuery)) {
+                cartStatement.setString(1, id);
+                cartStatement.executeUpdate();
+            }
+
+            // Rimuovi il prodotto dalla tabella Prodotto
+            try (PreparedStatement productStatement = connection.prepareStatement(deleteProductQuery)) {
+                productStatement.setString(1, id);
+                productStatement.executeUpdate();
+            }
+        }
+    }
+
 
 
 
