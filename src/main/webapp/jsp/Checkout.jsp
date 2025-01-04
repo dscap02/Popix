@@ -1,3 +1,6 @@
+<%@ page import="com.popx.modello.UserBean" %>
+<%@ page import="com.popx.persistenza.UserDAO" %>
+<%@ page import="com.popx.persistenza.UserDAOImpl" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -14,8 +17,36 @@
     <title>Checkout</title>
 </head>
 <body>
-
 <%@ include file="/resources/templates/header.jsp" %>
+<%
+    String email = (String) session.getAttribute("userEmail");
+
+    if (email != null) {
+        UserDAO<UserBean> userDAO = new UserDAOImpl();
+        UserBean userBean = userDAO.getUserByEmail(email);
+
+        if (!userBean.getRole().equals("User")) {
+            response.sendError(HttpServletResponse.SC_FORBIDDEN);
+            return;
+        }
+    } else {
+        // Aggiungi lo SweetAlert e reindirizzamento immediato
+        out.println("<script>");
+        out.println("Swal.fire({");
+        out.println("  icon: 'error',");
+        out.println("  title: 'Accesso Negato',");
+        out.println("  text: 'Devi essere loggato come cliente per fare il checkout.'");
+        out.println("}).then((result) => {");
+        out.println("  if (result.isConfirmed) {");
+        out.println("    window.location.href = '" + request.getContextPath() + "/jsp/Login.jsp';");
+        out.println("  }");
+        out.println("});");
+        out.println("</script>");
+        return;
+    }
+%>
+
+
 
 <div class="container mt-5">
     <h1 class="text-center mb-4">Checkout</h1>

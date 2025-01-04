@@ -100,7 +100,7 @@
                     %>
                     <p id="sum"> Totale: <%= formattedSum %> </p>
                 </div>
-                <button class="checkout-btn" id="checkout">CHECKOUT</button>
+                <a href="Checkout.jsp"><button class="checkout-btn" id="checkout">CHECKOUT</button></a>
             </div>
         </section>
     </div>
