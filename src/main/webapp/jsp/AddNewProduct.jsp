@@ -11,6 +11,9 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/styles/style-add.css">
 <script src="https://kit.fontawesome.com/892069e9ac.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>var contextPath = '<%= request.getContextPath()%>'; </script>
+<script src="${pageContext.request.contextPath}/scripts/addProd.js"></script>
 <title>Admin-Aggiungi</title>
 </head>
 <body>
@@ -19,9 +22,8 @@
 <%
     String email = (String) session.getAttribute("userEmail");
 
-    if(email!=null){
+    if(email != null) {
         UserDAO<UserBean> userDAO = new UserDAOImpl();
-
         UserBean userBean = userDAO.getUserByEmail(email);
 
         if(!userBean.getRole().equals("Admin")){
@@ -29,12 +31,10 @@
             return;
         }
     }
-
-
 %>
 
 <h2>Aggiungi un prodotto</h2>
-<form class="form-horizontal" enctype="multipart/form-data" accept-charset="UTF-8" method="post" action="${pageContext.request.contextPath}/addProductServlet">
+<form id="productForm" class="form-horizontal" enctype="multipart/form-data" accept-charset="UTF-8" method="post" action="${pageContext.request.contextPath}/addProductServlet">
     <div class="form-row">
         <div class="form-group">
             <label for="name">Nome</label>
@@ -79,8 +79,8 @@
         <button type="submit">Submit</button>
     </div>
 </form>
+
 <%@include file="/resources/templates/footer.jsp"%>
 
 </body>
 </html>
-
