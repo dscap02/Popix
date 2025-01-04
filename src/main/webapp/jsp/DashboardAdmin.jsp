@@ -80,7 +80,10 @@
             <td>
                 <div class="btn-group">
 
-                    <button>Modifica</button>
+                    <a href="${pageContext.request.contextPath}/jsp/ModifyProduct.jsp?id=<%= product.getId() %>">
+                        <button>Modifica</button>
+                    </a>
+
                     <button id="deleteProductBtn" data-id="<%= product.getId() %>">Elimina</button>
                 </div>
             </td>

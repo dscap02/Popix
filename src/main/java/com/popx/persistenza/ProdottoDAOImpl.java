@@ -361,6 +361,40 @@ public class ProdottoDAOImpl implements ProdottoDAO {
         }
     }
 
+    @Override
+    public boolean updateProduct(ProdottoBean prodottoBean) {
+        String queryProdotto = "UPDATE prodotto SET name = ?, cost = ?, brand = ?, figure = ?, pieces_in_stock = ?, img = ?, description = ? WHERE id = ?";
+        String queryProdottoCarrello = "UPDATE prodottocarrello SET unitary_cost = ? WHERE prodotto_id = ?";
+
+        try (Connection conn = ds.getConnection();
+             PreparedStatement stmtProdotto = conn.prepareStatement(queryProdotto);
+             PreparedStatement stmtProdottoCarrello = conn.prepareStatement(queryProdottoCarrello)) {
+
+            // Aggiorna la tabella 'prodotto'
+            stmtProdotto.setString(1, prodottoBean.getName());
+            stmtProdotto.setDouble(2, prodottoBean.getCost());
+            stmtProdotto.setString(3, prodottoBean.getBrand());
+            stmtProdotto.setString(4, prodottoBean.getFigure());
+            stmtProdotto.setInt(5, prodottoBean.getPiecesInStock());
+            stmtProdotto.setBytes(6, prodottoBean.getImg());
+            stmtProdotto.setString(7, prodottoBean.getDescription());
+            stmtProdotto.setString(8, prodottoBean.getId());
+
+            int rowsUpdatedProdotto = stmtProdotto.executeUpdate();
+
+            // Aggiorna la tabella 'prodotto_carrello'
+            stmtProdottoCarrello.setDouble(1, prodottoBean.getCost()); // Cost da aggiornare in ProdottoCarrello
+            stmtProdottoCarrello.setString(2, prodottoBean.getId());
+
+            int rowsUpdatedProdottoCarrello = stmtProdottoCarrello.executeUpdate();
+
+            return rowsUpdatedProdotto > 0 && rowsUpdatedProdottoCarrello > 0;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 
 
 
