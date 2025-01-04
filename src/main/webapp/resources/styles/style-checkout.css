@@ -1,0 +1,126 @@
+body {
+    background-color: #f8f9fa;
+    font-family: Arial, sans-serif;
+    margin-top: 8rem; /* Compensa l'header fisso */
+    margin-bottom: 5rem; /* Spazio per il footer */
+}
+
+.container {
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+}
+
+h1, h2 {
+    color: #333;
+    font-weight: bold;
+}
+
+h1 {
+    font-size: 2.5rem;
+    border-bottom: 3px solid #9966ff;
+    padding-bottom: 0.5rem;
+}
+
+h2 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    color: #9966ff;
+}
+
+label {
+    font-size: 1.2rem;
+    color: #555;
+    font-weight: 500;
+}
+
+input {
+    font-size: 1rem;
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    width: 100%;
+    margin-bottom: 1rem;
+}
+
+input:focus {
+    border-color: #9966ff;
+    outline: none;
+    box-shadow: 0 0 5px rgba(153, 102, 255, 0.5);
+}
+
+button {
+    background: linear-gradient(to right, #9966ff, #bf66ff);
+    color: #fff;
+    border: none;
+    padding: 0.75rem 2rem;
+    font-size: 1.5rem;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+button:hover {
+    background: linear-gradient(to right, #bf66ff, #9966ff);
+    transform: translateY(-2px);
+}
+
+button:active {
+    transform: translateY(0);
+}
+
+.text-center {
+    text-align: center;
+}
+
+/* Stile per sezioni del form */
+.row {
+    margin-top: 2rem;
+}
+
+.col-md-6 {
+    padding: 1rem;
+}
+
+form {
+    margin-top: 2rem;
+}
+
+/* Media Query per migliorare il layout sui dispositivi più piccoli */
+@media (max-width: 768px) {
+    .col-md-6 {
+        flex: 1 1 100%;
+        padding: 0;
+    }
+
+    button {
+        font-size: 1.2rem;
+        width: 100%;
+    }
+}
+
+/* Aggiunta di un bordo alle sezioni */
+.col-md-6 {
+    border: 1px solid #eee;
+    border-radius: 10px;
+    padding: 2rem;
+    background-color: #f9f9ff;
+}
+
+.col-md-6 h2 {
+    text-align: center;
+    font-size: 1.8rem;
+}
+
+/* Aggiustamenti per la compatibilità con header e footer */
+header {
+    z-index: 1000;
+}
+
+.footer {
+    margin-top: 3rem;
+    background-color: #f1f1f1;
+    padding: 2rem 0;
+    border-top: 3px solid #9966ff;
+}
