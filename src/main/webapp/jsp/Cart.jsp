@@ -2,6 +2,9 @@
 <%@ page import="java.util.List" %>
 <%@ page import="com.popx.modello.ProdottoBean" %>
 <%@ page import="com.popx.persistenza.ProdottoDAOImpl" %>
+<%@ page import="com.popx.modello.UserBean" %>
+<%@ page import="com.popx.persistenza.UserDAOImpl" %>
+<%@ page import="com.popx.persistenza.UserDAO" %>
 <html>
 <head>
     <meta charset="UTF-8">
@@ -30,6 +33,16 @@
                     ProdottoDAOImpl prodottoDao = new ProdottoDAOImpl();
                     List<ProdottoBean> cart = null;
                     String userEmail = (String) session.getAttribute("userEmail");
+
+                    if (userEmail != null) {
+                        UserDAO<UserBean> userDAO = new UserDAOImpl();
+                        UserBean userBean = userDAO.getUserByEmail(userEmail);
+
+                        if (!userBean.getRole().equals("User")) {
+                            response.sendError(HttpServletResponse.SC_FORBIDDEN);
+                            return;
+                        }
+                    }
                     cart = (List<ProdottoBean>) session.getAttribute("cart");
 
                     if (userEmail != null && cart == null) {

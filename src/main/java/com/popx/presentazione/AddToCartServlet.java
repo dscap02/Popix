@@ -1,8 +1,11 @@
 package com.popx.presentazione;
 
 import com.popx.modello.ProdottoBean;
+import com.popx.modello.UserBean;
 import com.popx.persistenza.ProdottoDAO;
 import com.popx.persistenza.ProdottoDAOImpl;
+import com.popx.persistenza.UserDAO;
+import com.popx.persistenza.UserDAOImpl;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,26 +23,48 @@ public class AddToCartServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String productId = request.getParameter("productId");
+        int quantity = Integer.parseInt(request.getParameter("quantity"));
 
         ProdottoDAO prodottoDAO = new ProdottoDAOImpl();
-
-        int quantity = Integer.parseInt(request.getParameter("quantity"));
         HttpSession session = request.getSession();
-        List<ProdottoBean> cart = (List<ProdottoBean>) session.getAttribute("cart");
+        String userEmail = (String) session.getAttribute("userEmail");
 
+        // Controllo per utenti loggati
+        if (userEmail != null) {
+            UserDAO<UserBean> userDAO = new UserDAOImpl();
+            try {
+                UserBean userBean = userDAO.getUserByEmail(userEmail);
+
+                if (userBean != null && !"User".equals(userBean.getRole())) {
+                    response.setContentType("application/json");
+                    response.getWriter().write("{\"success\": false, \"message\": \"Accesso negato: solo gli utenti con il ruolo 'User' possono aggiungere prodotti al carrello.\"}");
+                    return;
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+                response.setContentType("application/json");
+                response.getWriter().write("{\"success\": false, \"message\": \"Errore interno durante il controllo dei permessi.\"}");
+                return;
+            }
+        }
+
+        // Gestione del carrello per utenti guest e utenti loggati con ruolo 'User'
+        List<ProdottoBean> cart = (List<ProdottoBean>) session.getAttribute("cart");
         if (cart == null) {
             cart = new ArrayList<>();
             session.setAttribute("cart", cart);
         }
 
+        // Recupero del prodotto
         ProdottoBean prodotto = prodottoDAO.getProdottoById(productId);
 
         if (prodotto != null) {
             boolean productExists = false;
             for (ProdottoBean cartItem : cart) {
                 if (cartItem.getId().equals(prodotto.getId())) {
-                    if ((prodottoDAO.getProductQtyInCart(session,cartItem.getId())+quantity) <= prodotto.getPiecesInStock()) {
-                        prodottoDAO.updateProductQtyInCart(session, cartItem.getId(), quantity+ prodottoDAO.getProductQtyInCart(session, cartItem.getId()));  // Utilizza il metodo dedicato
+                    int currentQty = prodottoDAO.getProductQtyInCart(session, cartItem.getId());
+                    if ((currentQty + quantity) <= prodotto.getPiecesInStock()) {
+                        prodottoDAO.updateProductQtyInCart(session, cartItem.getId(), currentQty + quantity);
                         productExists = true;
                         break;
                     } else {
@@ -48,9 +74,10 @@ public class AddToCartServlet extends HttpServlet {
                     }
                 }
             }
+
             if (!productExists) {
-                cart.add(prodotto);  // Imposta la quantità direttamente nel carrello per un nuovo prodotto
-                prodottoDAO.updateProductQtyInCart(session, prodotto.getId(), quantity);  // Usa il metodo dedicato per aggiungere al carrello
+                cart.add(prodotto);
+                prodottoDAO.updateProductQtyInCart(session, prodotto.getId(), quantity);
             }
 
             response.setContentType("application/json");
@@ -59,6 +86,5 @@ public class AddToCartServlet extends HttpServlet {
             response.setContentType("application/json");
             response.getWriter().write("{\"success\": false, \"message\": \"Errore nell'aggiungere il prodotto al carrello.\"}");
         }
-
     }
 }
