@@ -43,6 +43,9 @@ public interface ProdottoDAO {
         void deleteProductById(String id) throws SQLException;
 
         boolean updateProduct(ProdottoBean prodottoBean);
+
+
+        void updateStock(String productId, int quantity) throws SQLException;
 }
 
 

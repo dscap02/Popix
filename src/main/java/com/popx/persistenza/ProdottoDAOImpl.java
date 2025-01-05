@@ -399,4 +399,24 @@ public class ProdottoDAOImpl implements ProdottoDAO {
 
 
 
+
+
+    public void updateStock(String productId, int quantity) throws SQLException {
+        String query = "UPDATE Prodotto SET pieces_in_stock = CASE WHEN ? <= 0 THEN 10 ELSE ? END WHERE id = ?";
+
+        try (Connection connection = ds.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+
+            statement.setInt(1, quantity);  // Controlla se la quantità è <= 0
+            statement.setInt(2, quantity);  // Usa la stessa quantità se non scende a 0
+            statement.setString(3, productId);  // ID del prodotto
+
+            statement.executeUpdate();
+        }
+    }
+
+
+
+
+
 }

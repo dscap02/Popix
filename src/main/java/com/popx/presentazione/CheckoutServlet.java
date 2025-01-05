@@ -14,21 +14,21 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
-@WebServlet("/CheckoutServlet")
+@WebServlet(name = "CheckoutServlet", value = "/CheckoutServlet")
 public class CheckoutServlet extends HttpServlet {
 
     private CarrelloDAO carrelloDAO = new CarrelloDAOImpl();
     private OrdineDAO ordineDAO = new OrdineDAOImpl();
     private RigaOrdineDAO rigaOrdineDAO = new RigaOrdineDAOImpl();
+    private ProdottoDAO prodottoDAO = new ProdottoDAOImpl();
 
-    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String userEmail = (String) request.getSession().getAttribute("userEmail");
 
         if (userEmail == null) {
-            // Utente non autenticato
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            response.getWriter().write("{\"error\": \"Utente non autenticato\"}");
+            response.setContentType("text/html");
+            response.getWriter().write("<script>alert('Utente non autenticato');</script>");
             return;
         }
 
@@ -37,7 +37,8 @@ public class CheckoutServlet extends HttpServlet {
 
         if (prodottoBeans == null || prodottoBeans.isEmpty()) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            response.getWriter().write("{\"error\": \"Il carrello è vuoto.\"}");
+            response.setContentType("text/html");
+            response.getWriter().write("<script>alert('Il carrello è vuoto.');</script>");
             return;
         }
 
@@ -48,35 +49,36 @@ public class CheckoutServlet extends HttpServlet {
 
         OrdineBean ordine = new OrdineBean((float) subtotal, userEmail, new Date(System.currentTimeMillis()));
 
-        ordineDAO.insertOrdine(ordine);
+        try {
+            ordineDAO.insertOrdine(ordine);
+            int ordineId = ordine.getId();
 
-        // Recupera l'ID dell'ordine auto-generato
-        int ordineId = ordine.getId();
+            for (ProdottoBean prodotto : prodottoBeans) {
+                RigaOrdineBean rigaOrdine = new RigaOrdineBean(
+                        ordineId,
+                        prodotto.getId(),
+                        prodotto.getQty(),
+                        (float) prodotto.getCost()
+                );
+                rigaOrdineDAO.addRigaOrdine(rigaOrdine);
 
-        List<RigaOrdineBean> righeOrdine = new ArrayList<>();
-        for (ProdottoBean prodotto : prodottoBeans) {
-            RigaOrdineBean rigaOrdine = new RigaOrdineBean(
-                    ordineId,
-                    prodotto.getId(),
-                    prodotto.getQty(),
-                    (float) prodotto.getCost()
-            );
-            righeOrdine.add(rigaOrdine);
+                // Aggiorna lo stock utilizzando il DAO
+                int newQty = prodotto.getPiecesInStock() - prodotto.getQty();
+                prodottoDAO.updateStock(prodotto.getId(), newQty);
+            }
+
+            carrelloDAO.clearCartByUserEmail(userEmail);
+            session.setAttribute("cart", null);
+
+            response.setStatus(HttpServletResponse.SC_OK);
+            response.setContentType("text/html");
+            String contextPath = request.getContextPath();
+            response.getWriter().write("<script>alert('Ordine completato con successo!');setTimeout(function(){ window.location.href = '" + contextPath + "/jsp/HomePage.jsp'; }, 1500);</script>");
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            response.setContentType("text/html");
+            response.getWriter().write("<script>alert('Errore interno nel completamento dell'ordine.');</script>");
         }
-
-        // Salva le righe dell'ordine
-        for (RigaOrdineBean riga : righeOrdine) {
-            rigaOrdineDAO.addRigaOrdine(riga);
-        }
-
-        // Svuota il carrello per l'utente
-        carrelloDAO.clearCartByUserEmail(userEmail);
-
-        // Invalidare la sessione del carrello
-        session.setAttribute("cart", null);
-
-        // Risposta positiva JSON
-        response.setStatus(HttpServletResponse.SC_OK);
-        response.getWriter().write("{\"message\": \"Ordine completato con successo!\"}");
     }
 }

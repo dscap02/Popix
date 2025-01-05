@@ -8,14 +8,32 @@ $(document).ready(function () {
                 method: 'POST',
                 data: $(this).serialize(),
                 success: function (response) {
-                    var data = JSON.parse(response);
-                    Swal.fire('Successo', data.message, 'success').then(() => {
-                        window.location.href = contextPath + '/jsp/HomePage.jsp';
-                    });
+                    if (response === "Ordine completato con successo!") {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Successo!',
+                            text: response,
+                            showConfirmButton: false,
+                            timer: 1500
+                        }).then(() => {
+                            window.location.href = contextPath + '/jsp/HomePage.jsp';
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Errore!',
+                            text: response,
+                            showConfirmButton: true
+                        });
+                    }
                 },
                 error: function (xhr, status, error) {
-                    var data = JSON.parse(xhr.responseText);
-                    Swal.fire('Errore', data.error, 'error');
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Errore!',
+                        text: 'Si è verificato un problema. Riprova.',
+                        showConfirmButton: true
+                    });
                 }
             });
         }
