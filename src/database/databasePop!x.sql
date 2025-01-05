@@ -23,30 +23,7 @@ CREATE TABLE Cliente (
                          FOREIGN KEY (utente_registrato_email) REFERENCES UtenteRegistrato(email)
 );
 
--- Table: InfoPersonali
-CREATE TABLE InfoPersonali (
-                               name VARCHAR(50),
-                               surname VARCHAR(50),
-                               country VARCHAR(50),
-                               city VARCHAR(50),
-                               address VARCHAR(100),
-                               zip VARCHAR(10),
-                               birthday_date DATE,
-                               cell VARCHAR(15),
-                               cliente_email VARCHAR(100) PRIMARY KEY,
-                               FOREIGN KEY (cliente_email) REFERENCES Cliente(utente_registrato_email)
-);
 
--- Table: MetodoPagamento
-CREATE TABLE MetodoPagamento (
-                                 id VARCHAR(5) PRIMARY KEY,
-                                 card_number VARCHAR(16) NOT NULL,
-                                 cvc INT NOT NULL,
-                                 owner VARCHAR(100),
-                                 expiration DATE NOT NULL,
-                                 cliente_email VARCHAR(100),
-                                 FOREIGN KEY (cliente_email) REFERENCES Cliente(utente_registrato_email)
-);
 
 -- Table: Carrello
 CREATE TABLE Carrello (
