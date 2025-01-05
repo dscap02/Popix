@@ -6,10 +6,7 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -176,5 +173,71 @@ public class OrdineDAOImpl implements OrdineDAO {
         }
         return ordini;
     }
+
+    @Override
+    public List<OrdineBean> getOrdiniPaginati(int currentPage, int recordsPerPage) {
+        List<OrdineBean> ordini = new ArrayList<>();
+        String query = "SELECT * FROM Ordine LIMIT ? OFFSET ?";
+
+        try (Connection conn = ds.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+            pstmt.setInt(1, recordsPerPage);
+            pstmt.setInt(2, (currentPage - 1) * recordsPerPage);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    OrdineBean ordine = new OrdineBean();
+                    ordine.setId(rs.getInt("id"));
+                    ordine.setSubtotal(rs.getFloat("subtotal"));
+                    ordine.setCustomerEmail(rs.getString("customer_email"));
+                    ordine.setStatus(rs.getString("status"));
+                    ordine.setDataOrdine(rs.getDate("data_ordine"));
+                    ordini.add(ordine);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return ordini;
+    }
+
+    @Override
+    public int countTuttiOrdini() {
+        int count = 0;
+        String query = "SELECT COUNT(*) FROM Ordine";
+
+        try (Connection conn = ds.getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(query)) {
+
+            if (rs.next()) {
+                count = rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return count;
+    }
+
+    @Override
+    public boolean updateStatus(int id, String newStatus) {
+        String sql = "UPDATE Ordine SET status = ? WHERE id = ?";
+        try (Connection conn = ds.getConnection();
+             PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
+
+            preparedStatement.setString(1, newStatus);
+            preparedStatement.setInt(2, id);
+
+            int rowsUpdated = preparedStatement.executeUpdate();
+            return rowsUpdated > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
 
 }

@@ -12,5 +12,11 @@ public interface OrdineDAO {
 
     int countOrdiniByCliente(String email);
     List<OrdineBean> getOrdiniByClientePaginati(String email, int currentPage, int itemsPerPage);
+
+    List<OrdineBean> getOrdiniPaginati(int currentPage, int recordsPerPage);
+
+    public int countTuttiOrdini();
+
+    boolean updateStatus(int id, String newStatus);
 }
 

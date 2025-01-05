@@ -335,3 +335,7 @@ header .logo span {
         padding: .5rem; /* Decrease table cell padding */
     }
 }
+
+p{
+    font-family: 'Poppins', sans-serif;
+}

@@ -1,0 +1,107 @@
+/* dash-gestore.css */
+
+/* Generale */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f8f9fa;
+    color: #333;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Tabella */
+.table {
+    margin: 1rem 0;
+    border-collapse: collapse;
+    border-radius: 5px;
+    overflow: hidden;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.table thead {
+    background: linear-gradient(to right, #9966ff, #bf66ff);
+    color: white;
+    text-align: center;
+    font-weight: bold;
+}
+
+.table tbody tr {
+    text-align: center;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.table tbody tr:hover {
+    background: #f8f8f8;
+}
+
+.table tbody td {
+    padding: 0.5rem;
+}
+
+/* Paginazione */
+.pagination {
+    margin-top: 1rem;
+}
+
+.pagination .page-item {
+    margin: 0 0.2rem;
+}
+
+.pagination .page-item .page-link {
+    font-size: 1rem;
+    border-radius: 3rem;
+    padding: 0.4rem 1rem;
+    background: #9966ff;
+    color: white;
+    border: none;
+    transition: all 0.3s ease;
+}
+
+.pagination .page-item.disabled .page-link {
+    background: #ddd;
+    color: #aaa;
+}
+
+.pagination .page-item.active .page-link {
+    background: #333;
+    color: white;
+}
+
+.pagination .page-item .page-link:hover {
+    background: #bf66ff;
+    color: white;
+}
+
+/* Heading */
+.heading {
+    text-align: center;
+    font-size: 2rem;
+    color: #333;
+    margin: 1rem 0;
+    padding: 0.5rem;
+    background: #e7dcff;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.heading span {
+    color: #9966ff;
+    font-weight: bold;
+}
+.btn-primary {
+    font-size: 0.9rem; /* Ridimensiona il testo del pulsante */
+    padding: 0.4rem 0.8rem; /* Ridimensiona lo spazio intorno al testo */
+    border-radius: 3px; /* Rendilo rettangolare con angoli arrotondati leggeri */
+    background-color: #0069d9;
+    border: none;
+    color: white;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+}

@@ -37,6 +37,9 @@
                 <label for="quantity" class="form-label">Quantity:</label>
                 <input type="number" id="quantity" class="form-control" value="1" min="1" max="<%= productBean.getPiecesInStock() %>">
             </div>
+            <div>
+                <p><%= productBean.getDescription()%></p>
+            </div>
             <button class="add-to-cart" id="addToCartButton" data-product-id="<%= productBean.getId() %>" >Add to Cart</button>
         </div>
     </section>

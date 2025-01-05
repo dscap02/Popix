@@ -65,11 +65,8 @@
         <!-- Product <%= i+1 %> -->
         <div class="box product<%= i+1 %>">
             <div class="image">
-                <img src="<%= request.getContextPath() + "/getPictureServlet?id=" + prodotto.getId() %>" alt="Product Image">
-                <div class="icons">
-                    <a href="#" class="cart-btn">Aggiungi al carrello</a>
-                    <a href="#" class="fas fa-share"></a>
-                </div>
+                <a href="${pageContext.request.contextPath}/getProduct?id=<%= prodotto.getId() %>"><img src="<%= request.getContextPath() + "/getPictureServlet?id=" + prodotto.getId() %>" alt="Product Image">
+                </a>
             </div>
             <div class="content">
                 <h3><%= prodotto.getName() %></h3>

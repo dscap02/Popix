@@ -27,7 +27,7 @@
         <!-- Icona per l'utente con ruolo -->
             <a href="${pageContext.request.contextPath}/<%=
                 role.equals("Admin") ? "getAdminServlet" :
-                role.equals("Gestore") ? "gestoreServlet" :
+                role.equals("Gestore") ? "/jsp/DashboardGestore.jsp" :
                 role.equals("User") ? "/jsp/DashboardUser.jsp" :
                 "#" %>"
                        class="fas fa-user<%=
