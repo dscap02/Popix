@@ -12,7 +12,9 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/styles/style-checkout.css">
     <script src="https://kit.fontawesome.com/892069e9ac.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="${pageContext.request.contextPath}/scripts/jquery.min.js"></script>
     <script src="${pageContext.request.contextPath}/scripts/checkoutValidation.js"></script>
+    <script src="${pageContext.request.contextPath}/scripts/checkout.js"></script>
     <script>var contextPath = '<%= request.getContextPath() %>';</script>
     <title>Checkout</title>
 </head>
@@ -46,11 +48,9 @@
     }
 %>
 
-
-
 <div class="container mt-5">
     <h1 class="text-center mb-4">Checkout</h1>
-    <form action="${pageContext.request.contextPath}/processCheckout" method="post" onsubmit="return validateForm()">
+    <form id="checkoutForm" action="${pageContext.request.contextPath}/CheckoutServlet" method="post" onsubmit="return validateForm()">
         <div class="row">
             <!-- Sezione Info Personali -->
             <div class="col-md-6">
@@ -81,7 +81,7 @@
                 </div>
                 <div class="mb-3">
                     <label for="birthday_date" class="form-label">Data di Nascita</label>
-                    <input type="date" class="form-control" id="birthday_date" name="birthday_date" placeholder="Inserisci la tua data di nascita">
+                    <input type="date" class="form-control" id="birthday_date" name="birthday_date">
                 </div>
                 <div class="mb-3">
                     <label for="cellulare" class="form-label">Cellulare</label>
@@ -89,7 +89,7 @@
                 </div>
                 <div class="mb-3">
                     <label for="cliente_email" class="form-label">Email</label>
-                    <input type="email" class="form-control" id="cliente_email" name="cliente_email" placeholder="Inserisci la tua email">
+                    <input type="email" class="form-control" id="cliente_email" name="cliente_email" value="<%= email %>" readonly>
                 </div>
             </div>
 
@@ -102,7 +102,7 @@
                 </div>
                 <div class="mb-3">
                     <label for="cvc" class="form-label">CVC</label>
-                    <input type="text" id="cvc" name="cvc"  maxlength="4" placeholder="Inserisci il CVC (3-4 cifre numeriche)">
+                    <input type="text" id="cvc" name="cvc" maxlength="4" placeholder="Inserisci il CVC (3-4 cifre numeriche)">
                 </div>
                 <div class="mb-3">
                     <label for="owner" class="form-label">Titolare Carta</label>
@@ -121,8 +121,6 @@
 </div>
 
 <%@ include file="/resources/templates/footer.jsp" %>
-
-<script src="${pageContext.request.contextPath}/scripts/checkoutValidation.js"></script>
 
 </body>
 </html>

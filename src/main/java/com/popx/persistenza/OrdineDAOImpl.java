@@ -32,7 +32,7 @@ public class OrdineDAOImpl implements OrdineDAO {
         String query = "INSERT INTO Ordine (subtotal, customer_email, status, data_ordine) VALUES (?, ?, ?, ?)";
 
         try (Connection con = ds.getConnection();
-             PreparedStatement ps = con.prepareStatement(query)) {
+             PreparedStatement ps = con.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS)) {
 
             ps.setFloat(1, ordine.getSubtotal());
             ps.setString(2, ordine.getCustomerEmail());
@@ -40,6 +40,12 @@ public class OrdineDAOImpl implements OrdineDAO {
             ps.setDate(4, new java.sql.Date(ordine.getDataOrdine().getTime()));
 
             ps.executeUpdate();
+
+            // Recupera l'ID auto-generato
+            ResultSet rs = ps.getGeneratedKeys();
+            if (rs.next()) {
+                ordine.setId(rs.getInt(1));
+            }
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -126,7 +132,4 @@ public class OrdineDAOImpl implements OrdineDAO {
 
         return ordini;
     }
-    }
-
-
-
+}

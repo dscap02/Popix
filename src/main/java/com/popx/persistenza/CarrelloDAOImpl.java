@@ -55,20 +55,27 @@ public class CarrelloDAOImpl implements CarrelloDAO {
         String queryCarrello = "SELECT * FROM Carrello WHERE cliente_email = ?";
         String queryProdotti = "SELECT * FROM ProdottoCarrello WHERE carrello_id = ?";
 
+        CarrelloBean carrello = null;
         List<ProdottoCarrelloBean> prodottiCarrello = new ArrayList<>();
+
         try (Connection connection = ds.getConnection()) {
+            // Recupera il carrello
             try (PreparedStatement psCarrello = connection.prepareStatement(queryCarrello)) {
                 psCarrello.setString(1, email);
                 ResultSet rsCarrello = psCarrello.executeQuery();
 
                 if (rsCarrello.next()) {
+                    // Recupera l'ID del carrello
+                    int carrelloId = rsCarrello.getInt("id");
+
+                    // Recupera i prodotti associati al carrello
                     try (PreparedStatement psProdotti = connection.prepareStatement(queryProdotti)) {
-                        psProdotti.setString(1, rsCarrello.getString("cliente_email"));
+                        psProdotti.setInt(1, carrelloId);
                         ResultSet rsProdotti = psProdotti.executeQuery();
 
                         while (rsProdotti.next()) {
                             ProdottoCarrelloBean prodotto = new ProdottoCarrelloBean(
-                                    rsCarrello.getString("cliente_email"),
+                                    email,
                                     rsProdotti.getString("prodotto_id"),
                                     rsProdotti.getInt("quantity"),
                                     rsProdotti.getFloat("unitary_cost")
@@ -76,14 +83,67 @@ public class CarrelloDAOImpl implements CarrelloDAO {
                             prodottiCarrello.add(prodotto);
                         }
                     }
+
+                    // Crea il carrello
+                    carrello = new CarrelloBean(email, prodottiCarrello);
                 }
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        return new CarrelloBean(email, prodottiCarrello);
+        return carrello != null ? carrello : new CarrelloBean(email, prodottiCarrello);
     }
+
+    @Override
+    public void clearCartByUserEmail(String email) {
+        String queryProdottoCarrello = "DELETE FROM ProdottoCarrello WHERE carrello_id = (SELECT id FROM Carrello WHERE cliente_email = ?)";
+        String queryCarrello = "DELETE FROM Carrello WHERE cliente_email = ?";
+        Connection connection = null;
+
+        try {
+            connection = ds.getConnection();
+
+            // Avvia una transazione
+            connection.setAutoCommit(false);
+
+            try (PreparedStatement psProdottoCarrello = connection.prepareStatement(queryProdottoCarrello)) {
+                psProdottoCarrello.setString(1, email);
+                psProdottoCarrello.executeUpdate();
+            }
+
+            try (PreparedStatement psCarrello = connection.prepareStatement(queryCarrello)) {
+                psCarrello.setString(1, email);
+                psCarrello.executeUpdate();
+            }
+
+            // Conferma la transazione
+            connection.commit();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            try {
+                // In caso di errore, esegui il rollback
+                if (connection != null) {
+                    connection.rollback();
+                }
+            } catch (SQLException rollbackEx) {
+                rollbackEx.printStackTrace();
+            }
+        } finally {
+            try {
+                // Ripristina l'auto-commit
+                if (connection != null) {
+                    connection.setAutoCommit(true);
+                    connection.close();
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
+
+
 
 
 }

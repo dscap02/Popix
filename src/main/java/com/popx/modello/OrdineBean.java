@@ -3,20 +3,18 @@ package com.popx.modello;
 import java.sql.Date;
 
 public class OrdineBean {
-    private int id;
+    private int id; // Sarà auto-generato dal database
     private float subtotal;
     private String customerEmail;
-    private String status;
+    private String status = "In elaborazione"; // Stato predefinito
     private Date dataOrdine;
 
     // Costruttori
     public OrdineBean() {}
 
-    public OrdineBean(int id, float subtotal, String customerEmail, String status, Date dataOrdine) {
-        this.id = id;
+    public OrdineBean(float subtotal, String customerEmail, Date dataOrdine) {
         this.subtotal = subtotal;
         this.customerEmail = customerEmail;
-        this.status = status;
         this.dataOrdine = dataOrdine;
     }
 
@@ -61,4 +59,3 @@ public class OrdineBean {
         this.dataOrdine = dataOrdine;
     }
 }
-

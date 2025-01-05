@@ -9,6 +9,7 @@ import java.util.List;
 public interface CarrelloDAO {
     void salvaCarrello(CarrelloBean carrello);
     CarrelloBean ottieniCarrelloPerEmail(String email);
+    void clearCartByUserEmail(String email);
 
 }
 
