@@ -28,7 +28,7 @@
             <a href="${pageContext.request.contextPath}/<%=
                 role.equals("Admin") ? "getAdminServlet" :
                 role.equals("Gestore") ? "gestoreServlet" :
-                role.equals("User") ? "userServlet" :
+                role.equals("User") ? "/jsp/DashboardUser.jsp" :
                 "#" %>"
                        class="fas fa-user<%=
                 role.equals("Gestore") ? "-cog" :

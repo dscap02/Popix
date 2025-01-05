@@ -132,4 +132,49 @@ public class OrdineDAOImpl implements OrdineDAO {
 
         return ordini;
     }
+
+    @Override
+    public int countOrdiniByCliente(String email) {
+        int count = 0;
+        try (Connection connection = ds.getConnection()) {
+            String query = "SELECT COUNT(*) FROM Ordine WHERE customer_email = ?";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+                preparedStatement.setString(1, email);
+                ResultSet resultSet = preparedStatement.executeQuery();
+                if (resultSet.next()) {
+                    count = resultSet.getInt(1);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return count;
+    }
+
+    @Override
+    public List<OrdineBean> getOrdiniByClientePaginati(String email, int currentPage, int itemsPerPage) {
+        List<OrdineBean> ordini = new ArrayList<>();
+        try (Connection connection = ds.getConnection()) {
+            int offset = (currentPage - 1) * itemsPerPage;
+            String query = "SELECT id, subtotal, status, data_ordine FROM Ordine WHERE customer_email = ? ORDER BY data_ordine DESC LIMIT ? OFFSET ?";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+                preparedStatement.setString(1, email);
+                preparedStatement.setInt(2, itemsPerPage);
+                preparedStatement.setInt(3, offset);
+                ResultSet resultSet = preparedStatement.executeQuery();
+                while (resultSet.next()) {
+                    OrdineBean ordine = new OrdineBean();
+                    ordine.setId(resultSet.getInt("id"));
+                    ordine.setSubtotal(resultSet.getFloat("subtotal"));
+                    ordine.setStatus(resultSet.getString("status"));
+                    ordine.setDataOrdine(resultSet.getDate("data_ordine"));
+                    ordini.add(ordine);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return ordini;
+    }
+
 }

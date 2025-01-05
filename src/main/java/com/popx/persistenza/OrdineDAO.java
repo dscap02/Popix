@@ -9,5 +9,8 @@ public interface OrdineDAO {
     OrdineBean getOrdineById(int id);
     List<OrdineBean> getAllOrdini();
     List<OrdineBean> getOrdiniByCliente(String clienteEmail);
+
+    int countOrdiniByCliente(String email);
+    List<OrdineBean> getOrdiniByClientePaginati(String email, int currentPage, int itemsPerPage);
 }
 
