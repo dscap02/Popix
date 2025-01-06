@@ -11,17 +11,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserDAOImpl implements UserDAO<UserBean> {
-    private static final DataSource ds;
+    private DataSource ds;
 
-    static {
-        try {
-            Context ctx = new InitialContext();
-            Context env = (Context) ctx.lookup("java:comp/env");
-            ds = (DataSource) env.lookup("jdbc/Popix");
-        } catch (NamingException e) {
-            throw new RuntimeException(e);
-        }
-    }
+
+   public UserDAOImpl() {
+       this.ds = DataSourceSingleton.getInstance();
+   }
 
     @Override
     public UserBean getUserByEmail(String email) throws SQLException {

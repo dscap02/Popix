@@ -1,10 +1,14 @@
 package com.popx.servizio;
 
 import com.popx.modello.UserBean;
+import com.popx.persistenza.DataSourceSingleton;
 import com.popx.persistenza.UserDAO;
 import com.popx.persistenza.UserDAOImpl;
 
+import javax.sql.DataSource;
+
 public class AuthenticationService {
+    private DataSource DataSourceSingleton;
     private UserDAO userDAO = new UserDAOImpl();
 
     public UserBean login(String email, String password) throws Exception {

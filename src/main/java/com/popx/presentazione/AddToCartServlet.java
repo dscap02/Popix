@@ -2,10 +2,7 @@ package com.popx.presentazione;
 
 import com.popx.modello.ProdottoBean;
 import com.popx.modello.UserBean;
-import com.popx.persistenza.ProdottoDAO;
-import com.popx.persistenza.ProdottoDAOImpl;
-import com.popx.persistenza.UserDAO;
-import com.popx.persistenza.UserDAOImpl;
+import com.popx.persistenza.*;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.sql.DataSource;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -20,6 +18,8 @@ import java.util.List;
 
 @WebServlet("/addToCart")
 public class AddToCartServlet extends HttpServlet {
+
+    private DataSource DataSourceSingleton;
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String productId = request.getParameter("productId");

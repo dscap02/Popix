@@ -12,16 +12,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class ClienteDAOImpl implements UserDAO<ClienteBean> {
-    private static final DataSource ds;
+    private  DataSource ds;
 
-    static {
-        try {
-            Context ctx = new InitialContext();
-            Context env = (Context) ctx.lookup("java:comp/env");
-            ds = (DataSource) env.lookup("jdbc/Popix");
-        } catch (NamingException e) {
-            throw new RuntimeException(e);
-        }
+
+    public ClienteDAOImpl() {
+        this.ds = DataSourceSingleton.getInstance();
     }
 
     @Override
