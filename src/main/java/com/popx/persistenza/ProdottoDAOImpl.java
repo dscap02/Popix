@@ -13,17 +13,15 @@ import java.util.List;
 
 public class ProdottoDAOImpl implements ProdottoDAO {
 
-    private static final DataSource ds;
+        private final DataSource ds;
 
-    static {
-        try {
-            Context ctx = new InitialContext();
-            Context env = (Context) ctx.lookup("java:comp/env");
-            ds = (DataSource) env.lookup("jdbc/Popix");
-        } catch (NamingException e) {
-            throw new RuntimeException(e);
+        public ProdottoDAOImpl(DataSource ds) {
+            this.ds = ds;
         }
-    }
+
+        public ProdottoDAOImpl() {
+            this(DataSourceSingleton.getInstance());
+        }
 
     @Override
     public boolean saveProdotto(ProdottoBean prodotto) {

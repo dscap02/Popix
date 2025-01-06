@@ -2,6 +2,7 @@ package com.popx.presentazione;
 
 import com.google.gson.JsonObject;
 import com.popx.modello.ProdottoBean;
+import com.popx.persistenza.DataSourceSingleton;
 import com.popx.persistenza.ProdottoDAOImpl;
 
 import javax.servlet.ServletException;
@@ -19,9 +20,14 @@ import java.io.InputStream;
 public class ProductServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
-    private final ProdottoDAOImpl prodottoDAO = new ProdottoDAOImpl();
+    private ProdottoDAOImpl prodottoDAO = new ProdottoDAOImpl();
 
-    @Override
+    public ProductServlet() {
+        this.prodottoDAO = new ProdottoDAOImpl(DataSourceSingleton.getInstance()); // Usa il DataSource dal singleton
+    }
+
+
+        @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("application/json");
