@@ -11,6 +11,13 @@ public class AuthenticationService {
     private DataSource DataSourceSingleton;
     private UserDAO userDAO = new UserDAOImpl();
 
+    public AuthenticationService(){
+    }
+
+    public AuthenticationService(UserDAO userDAO){
+        this.userDAO = userDAO;
+    }
+
     public UserBean login(String email, String password) throws Exception {
         UserBean user = userDAO.getUserByEmail(email);
 

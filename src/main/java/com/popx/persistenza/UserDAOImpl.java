@@ -8,15 +8,18 @@ import javax.naming.NamingException;
 import javax.sql.DataSource;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class UserDAOImpl implements UserDAO<UserBean> {
     private DataSource ds;
 
 
-   public UserDAOImpl() {
-       this.ds = DataSourceSingleton.getInstance();
-   }
+    public UserDAOImpl() {
+        this.ds = DataSourceSingleton.getInstance();
+    }
+
 
     @Override
     public UserBean getUserByEmail(String email) throws SQLException {
@@ -86,4 +89,6 @@ public class UserDAOImpl implements UserDAO<UserBean> {
         }
         return users;
     }
+
 }
+
