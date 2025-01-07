@@ -25,7 +25,7 @@ public class OrdineDAOImpl implements OrdineDAO {
     }
 
     @Override
-    public void insertOrdine(OrdineBean ordine) {
+    public boolean insertOrdine(OrdineBean ordine) {
         String query = "INSERT INTO Ordine (subtotal, customer_email, status, data_ordine) VALUES (?, ?, ?, ?)";
 
         try (Connection con = ds.getConnection();
@@ -36,7 +36,7 @@ public class OrdineDAOImpl implements OrdineDAO {
             ps.setString(3, ordine.getStatus());
             ps.setDate(4, new java.sql.Date(ordine.getDataOrdine().getTime()));
 
-            ps.executeUpdate();
+            int affectedRows = ps.executeUpdate();
 
             // Recupera l'ID auto-generato
             ResultSet rs = ps.getGeneratedKeys();
@@ -44,10 +44,15 @@ public class OrdineDAOImpl implements OrdineDAO {
                 ordine.setId(rs.getInt(1));
             }
 
+            // Restituisce true se sono state modificate righe (quindi l'inserimento è riuscito)
+            return affectedRows > 0;
+
         } catch (SQLException e) {
             e.printStackTrace();
+            return false; // Restituisce false in caso di errore
         }
     }
+
 
     @Override
     public OrdineBean getOrdineById(int id) {
