@@ -8,23 +8,16 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
 import javax.sql.DataSource;
 
 public class RigaOrdineDAOImpl implements RigaOrdineDAO {
 
-    private static final DataSource ds;
+    private DataSource ds;
 
-    static {
-        try {
-            Context ctx = new InitialContext();
-            Context env = (Context) ctx.lookup("java:comp/env");
-            ds = (DataSource) env.lookup("jdbc/Popix");
-        } catch (NamingException e) {
-            throw new RuntimeException(e);
-        }
+
+    public RigaOrdineDAOImpl() {
+        this.ds = DataSourceSingleton.getInstance();
+
     } // Usa il DataSource fornito sopra
 
     @Override

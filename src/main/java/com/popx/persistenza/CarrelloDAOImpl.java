@@ -13,17 +13,13 @@ import java.sql.*;
 import java.util.*;
 
 public class CarrelloDAOImpl implements CarrelloDAO {
-    private static final DataSource ds;
+    private DataSource ds;
 
-    static {
-        try {
-            Context ctx = new InitialContext();
-            Context env = (Context) ctx.lookup("java:comp/env");
-            ds = (DataSource) env.lookup("jdbc/Popix");
-        } catch (NamingException e) {
-            throw new RuntimeException(e);
-        }
+
+    public CarrelloDAOImpl() {
+        this.ds = DataSourceSingleton.getInstance();
     }
+
 
     @Override
     public void salvaCarrello(CarrelloBean carrello) {

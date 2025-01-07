@@ -2,9 +2,6 @@ package com.popx.persistenza;
 
 import com.popx.modello.OrdineBean;
 
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
 import javax.sql.DataSource;
 import java.sql.*;
 import java.util.ArrayList;
@@ -12,16 +9,11 @@ import java.util.List;
 
 public class OrdineDAOImpl implements OrdineDAO {
 
-    private static final DataSource ds;
+    private DataSource ds;
 
-    static {
-        try {
-            Context ctx = new InitialContext();
-            Context env = (Context) ctx.lookup("java:comp/env");
-            ds = (DataSource) env.lookup("jdbc/Popix");
-        } catch (NamingException e) {
-            throw new RuntimeException(e);
-        }
+
+    public OrdineDAOImpl() {
+        this.ds = DataSourceSingleton.getInstance();
     }
 
     @Override
