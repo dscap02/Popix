@@ -395,7 +395,24 @@ public class ProdottoDAOImpl implements ProdottoDAO {
     }
 
 
+    // Metodo isAssociatedWith da aggiungere nel DAO
+    public boolean isAssociatedWith(String productId1, String productId2) throws SQLException {
+        String query = "SELECT COUNT(*) FROM ProductAssociations WHERE product_id_1 = ? AND product_id_2 = ?";
 
+        try (Connection connection = ds.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+
+            preparedStatement.setString(1, productId1);
+            preparedStatement.setString(2, productId2);
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    return resultSet.getInt(1) > 0;
+                }
+            }
+        }
+        return false;
+    }
 
 
 
