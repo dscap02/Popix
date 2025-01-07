@@ -1,7 +1,10 @@
 package com.popx.presentazione;
 
+import com.popx.modello.OrdineBean;
 import com.popx.persistenza.OrdineDAO;
 import com.popx.persistenza.OrdineDAOImpl;
+import org.mockito.internal.matchers.Or;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -17,10 +20,16 @@ public class UpdateStatusServlet extends HttpServlet {
         int orderId = Integer.parseInt(request.getParameter("id"));
         String newStatus = request.getParameter("status");
 
+
+
         OrdineDAO ordineDAO = new OrdineDAOImpl();
 
+        OrdineBean ordineBean = ordineDAO.getOrdineById(orderId);
+
+        ordineBean.setStatus(newStatus);
+
         try {
-            boolean success = ordineDAO.updateStatus(orderId, newStatus);
+            boolean success = ordineDAO.updateStatus(ordineBean);
             response.setContentType("application/json");
             response.getWriter().write("{\"success\": " + success + "}");
         } catch (Exception e) {

@@ -228,21 +228,24 @@ public class OrdineDAOImpl implements OrdineDAO {
     }
 
     @Override
-    public boolean updateStatus(int id, String newStatus) {
+    public boolean updateStatus(OrdineBean ordineBean) {
         String sql = "UPDATE Ordine SET status = ? WHERE id = ?";
         try (Connection conn = ds.getConnection();
              PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
 
-            preparedStatement.setString(1, newStatus);
-            preparedStatement.setInt(2, id);
+            // Impostazione dei parametri della query
+            preparedStatement.setString(1, ordineBean.getStatus());
+            preparedStatement.setInt(2, ordineBean.getId());
 
+            // Esecuzione dell'aggiornamento
             int rowsUpdated = preparedStatement.executeUpdate();
-            return rowsUpdated > 0;
+            return rowsUpdated > 0; // Restituisce true se almeno una riga è stata aggiornata
         } catch (SQLException e) {
             e.printStackTrace();
-            return false;
+            return false; // Gestisce l'errore restituendo false
         }
     }
+
 
 
 }

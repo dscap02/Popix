@@ -17,6 +17,6 @@ public interface OrdineDAO {
 
     public int countTuttiOrdini();
 
-    boolean updateStatus(int id, String newStatus);
+    boolean updateStatus(OrdineBean ordineBean);
 }
 
