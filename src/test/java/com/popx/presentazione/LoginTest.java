@@ -24,7 +24,7 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class LoginServletTest {
+class LoginTest {
 
     private AuthenticationService autService;
     private UserDAO<UserBean> userDAOmock;

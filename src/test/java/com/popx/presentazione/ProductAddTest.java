@@ -1,23 +1,12 @@
 package com.popx.presentazione;
 
-import com.google.gson.JsonParser;
 import com.popx.modello.ProdottoBean;
 import com.popx.persistenza.DataSourceSingleton;
 import com.popx.persistenza.ProdottoDAOImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
-import com.google.gson.JsonObject;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.Part;
 import javax.sql.DataSource;
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -28,7 +17,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
-class ProductServletAddTest {
+class ProductAddTest {
     private ProdottoDAOImpl prodottoDAOMock;
     private DataSource mockDataSource;
 

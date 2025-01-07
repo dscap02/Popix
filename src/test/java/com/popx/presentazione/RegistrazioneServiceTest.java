@@ -2,7 +2,6 @@ package com.popx.presentazione;
 
 import com.popx.modello.UserBean;
 import com.popx.persistenza.DataSourceSingleton;
-import com.popx.persistenza.UserDAO;
 import com.popx.persistenza.UserDAOImpl;
 import com.popx.servizio.AuthenticationService;
 import org.junit.jupiter.api.BeforeEach;

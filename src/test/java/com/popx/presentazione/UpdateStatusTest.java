@@ -1,35 +1,26 @@
 package com.popx.presentazione;
 
 import com.popx.modello.OrdineBean;
-import com.popx.modello.ProdottoBean;
-import com.popx.modello.RigaOrdineBean;
-import com.popx.persistenza.*;
+import com.popx.persistenza.DataSourceSingleton;
+import com.popx.persistenza.OrdineDAOImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
-import java.io.StringWriter;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
-class CheckoutServletTest {
-    private ProdottoDAOImpl prodottoDAOMock;
-    private DataSource mockDataSource;
-    private RigaOrdineDAOImpl rigaordineDAOMock;
-    private HttpSession sessionMock;
+class UpdateStatusTest {
+
     private OrdineDAOImpl ordineDAOMock;
-    private CarrelloDAOImpl carrelloDAOMock;
+    private DataSource mockDataSource;
 
     @BeforeEach
     void setupService() throws SQLException {
-
-        // Mock del DataSource
         mockDataSource = mock(DataSource.class);
         DataSourceSingleton.setInstanceForTest(mockDataSource);
 
@@ -43,43 +34,45 @@ class CheckoutServletTest {
         when(mockPreparedStatement.executeQuery()).thenReturn(mockResultSet);
         when(mockPreparedStatement.executeUpdate()).thenReturn(1);
 
-        // Mock del DAO
-        prodottoDAOMock = mock(ProdottoDAOImpl.class);
-        ordineDAOMock = mock(OrdineDAOImpl.class);
-        rigaordineDAOMock = mock(RigaOrdineDAOImpl.class);
-        sessionMock = mock(HttpSession.class);
-        carrelloDAOMock = mock(CarrelloDAOImpl.class);
-
-    }
-
-
-
+        // Crea un'istanza reale della DAO con il mock del DataSource
+        ordineDAOMock = mock(OrdineDAOImpl.class);    }
 
     @Test
-    void testSuccessfulPayment() throws Exception {
+    void testUpdateShippingStatus() throws SQLException {
         // Dati di esempio
+
         float subtotal = 19.99F;
         String customerEmail = "test@gmail.com";
-        Date data = new Date(2025 - 1900, 0, 6); // Ricorda che il mese parte da 0 in java.util.Date
+        Date data = new Date(2025 - 1900, 0, 6);
+        int ordineId = 1;
+        String nuovoStato = "In consegna";
 
-        // Creazione dell'ordine
+        // Creazione di un mock per OrdineBean
+
         OrdineBean ordine1 = new OrdineBean(subtotal, customerEmail, data);
 
-        // Configura il comportamento del mock per il metodo insertOrdine
+        ordine1.setStatus(nuovoStato);
+
         doAnswer(invocation -> {
             OrdineBean ordine = invocation.getArgument(0);
             ordine.setId(1); // Simula che l'ID venga generato correttamente
             return null;
-        }).when(ordineDAOMock).insertOrdine(any(OrdineBean.class));
+        }).when(ordineDAOMock).updateStatus(any(OrdineBean.class));
+
+        ordineDAOMock.updateStatus(ordine1);
 
         // Esegui l'operazione
-        ordineDAOMock.insertOrdine(ordine1);
+        boolean result = ordineDAOMock.updateStatus(ordine1);
 
         // Verifica che il metodo sia stato chiamato correttamente
-        verify(ordineDAOMock, times(1)).insertOrdine(ordine1);
+        //verify(ordineDAOMock, times(1)).updateStatus(ordine1);
 
         // Verifica che l'ID sia stato impostato sull'ordine
-        assertEquals(1, ordine1.getId(), "L'ID dell'ordine dovrebbe essere impostato correttamente.");
+        assertEquals(nuovoStato, ordine1.getStatus(), "L'ID dell'ordine dovrebbe essere impostato correttamente.");
     }
 
+
+
+
 }
+

@@ -3,8 +3,6 @@ package com.popx.presentazione;
 import com.popx.modello.ProdottoBean;
 import com.popx.persistenza.DataSourceSingleton;
 import com.popx.persistenza.ProdottoDAOImpl;
-import com.popx.persistenza.UserDAOImpl;
-import com.popx.servizio.AuthenticationService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
