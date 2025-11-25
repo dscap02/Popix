@@ -23,5 +23,6 @@ dist/
 # Windows thumbnail cache files
 Thumbs.db
 ehthumbs.db
+.run
 
 
